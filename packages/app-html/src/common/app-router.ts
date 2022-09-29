@@ -1,6 +1,7 @@
-import {createRouter, createHTMLRouteProcessor, createRedirectRouteProcessor, Router} from 'ui-router';
-import {createDocumentRouteHandler, DocumentRouteParams} from './modules/document';
-import {createHomeRouteHandler, HomeRouteParams} from './modules/home';
+import {createHTMLRouteProcessor, createRedirectRouteProcessor, createRouter, Router} from 'ui-router';
+import {createDocumentRouteHandler, DocumentRouteParams} from '../modules/document';
+import {createHomeRouteHandler, HomeRouteParams} from '../modules/home';
+import {ROOT_ID} from './config';
 
 interface AppRoutes {
     home: HomeRouteParams;
@@ -13,7 +14,7 @@ export function createAppRouter(): Router<AppRoutes> {
     const redirectRouteProcessor = createRedirectRouteProcessor();
 
     const htmlRouteProcessor = createHTMLRouteProcessor({
-        rootId: 'app'
+        rootId: ROOT_ID
     });
 
     const homeRoute = {

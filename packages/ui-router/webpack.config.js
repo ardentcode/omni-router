@@ -1,9 +1,10 @@
-module.exports =  () => {
+module.exports = () => {
 
     return {
 
         target: 'web',
         stats: 'minimal',
+        devtool: 'eval-source-map',
 
         entry: './src/index.ts',
 
@@ -34,6 +35,6 @@ module.exports =  () => {
             ]
         }
 
-    }
+    };
 
 };

@@ -1,17 +1,37 @@
 import express, {Request, Response} from 'express';
-import {APP_PORT, PUBLIC_PATH} from './server';
+import {ROOT_ID} from './common/config';
+import {renderDocumentTemplate} from './modules/document/document-template';
+import {renderHomeTemplate} from './modules/home/home-template';
+import {APP_PORT, createHTMLRenderer, htmlTemplate, PUBLIC_PATH} from './server';
 
 function main() {
     const app = express();
+    const htmlRenderer = createHTMLRenderer({
+        commonData: {
+            ROOT_ID
+        }
+    });
 
     app.use(express.static(PUBLIC_PATH));
 
+    // TODO: replace express routing with ui-router
+
     app.get('/', (request: Request, response: Response) => {
-        response.send('Home');
+        const params = {};
+        const content = htmlRenderer.renderHTML(htmlTemplate, {
+            TITLE: 'Home',
+            CONTENT: renderHomeTemplate(params)
+        });
+        response.send(content);
     });
 
     app.get('/document/:id', (request: Request, response: Response) => {
-        response.send(`Document #${request.params.id}`);
+        const params = {id: request.params.id};
+        const content = htmlRenderer.renderHTML(htmlTemplate, {
+            TITLE: `Document ${params.id}`,
+            CONTENT: renderDocumentTemplate(params)
+        });
+        response.send(content);
     });
 
     app.listen(APP_PORT, () => {

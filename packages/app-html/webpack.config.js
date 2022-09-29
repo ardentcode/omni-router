@@ -1,9 +1,10 @@
 const nodeExternals = require('webpack-node-externals');
 
-module.exports =  () => {
+module.exports = () => {
 
     const commonConfig = {
         stats: 'minimal',
+        devtool: 'source-map',
         resolve: {
             extensions: ['.ts']
         },
@@ -15,6 +16,15 @@ module.exports =  () => {
                     use: [
                         {
                             loader: 'ts-loader',
+                        }
+                    ]
+                },
+                {
+                    test: /\.html?$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {
+                            loader: 'raw-loader'
                         }
                     ]
                 }

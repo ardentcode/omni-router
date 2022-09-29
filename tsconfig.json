@@ -13,7 +13,6 @@
         "noImplicitThis": true,
         "module": "esnext",
         "moduleResolution": "node",
-        "outDir": "./dist/types",
         "skipLibCheck": true,
         "sourceMap": true,
         "target": "es5",
@@ -22,8 +21,12 @@
             "ES2021"
         ],
         "paths": {
-            "app-html": ["./packages/app-html"],
-            "ui-router": ["./packages/ui-router"]
+            "app-html": [
+                "./packages/app-html"
+            ],
+            "ui-router": [
+                "./packages/ui-router"
+            ]
         }
     }
 }

@@ -9,7 +9,7 @@ interface HTMLRouteProcessorOptions {
 export function createHTMLRouteProcessor({rootId}: HTMLRouteProcessorOptions): RouteProcessor<HTMLRouteChunk> {
     return {
         async process<P>(router: Router, {htmlElement, htmlText}: Partial<HTMLRouteChunk>): Promise<void> {
-            const rootElement = document.createElement(rootId);
+            const rootElement = document.getElementById(rootId);
             if (!rootElement) {
                 throw new Error(`Root element #${rootId} was not found`);
             }

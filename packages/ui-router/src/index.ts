@@ -1,6 +1,7 @@
+import './polyfills';
+
 export * from './route';
 export * from './router';
-export * from './route-url';
 export * from './route-name';
 export * from './route-chunk';
 export * from './route-handler';

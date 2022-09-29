@@ -1,7 +1,11 @@
 {
     "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./dist/types"
+    },
     "include": [
-        "src/**/*",
+        "navigation-api.d.ts",
+        "src/**/*"
     ],
     "exclude": [
         "node_modules",

@@ -1,7 +1,11 @@
 {
     "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "declaration": false
+    },
     "include": [
-        "src/**/*",
+        "declarations.d.ts",
+        "src/**/*"
     ],
     "exclude": [
         "node_modules",
