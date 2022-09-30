@@ -2,6 +2,7 @@ import {createHTMLRouteProcessor, createRedirectRouteProcessor, createRouter, Ro
 import {createDocumentRouteHandler, DocumentRouteParams} from '../modules/document';
 import {createHomeRouteHandler, HomeRouteParams} from '../modules/home';
 import {ROOT_ID} from './config';
+import {createMetaRouteProcessor} from 'ui-router/src/meta';
 
 interface AppRoutes {
     home: HomeRouteParams;
@@ -17,6 +18,8 @@ export function createAppRouter(): Router<AppRoutes> {
         rootId: ROOT_ID
     });
 
+    const metaRouteProcessor = createMetaRouteProcessor();
+
     const homeRoute = {
         name: 'home',
         path: '/',
@@ -31,6 +34,7 @@ export function createAppRouter(): Router<AppRoutes> {
 
     router.registerProcessor(redirectRouteProcessor);
     router.registerProcessor(htmlRouteProcessor);
+    router.registerProcessor(metaRouteProcessor);
     router.registerRoute(homeRoute);
     router.registerRoute(documentRoute);
 

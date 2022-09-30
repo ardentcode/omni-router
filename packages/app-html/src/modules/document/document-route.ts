@@ -10,7 +10,10 @@ export function createDocumentRouteHandler(): RouteHandler<DocumentRouteParams, 
         return {
             htmlText: renderDocumentTemplate(params),
             meta: {
-                title: `Document #${params.id}`
+                title: `Document #${params.id}`,
+                author: 'Author of document',
+                keywords: 'HTML, JavaScript',
+                description: 'Description of document'
             }
         };
     };
