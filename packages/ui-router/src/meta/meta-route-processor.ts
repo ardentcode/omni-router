@@ -4,10 +4,10 @@ import {HTMLRouteChunk} from '../html';
 
 export function createMetaRouteProcessor(): RouteProcessor<HTMLRouteChunk> {
     return {
-        async process<P>(
-            router: Router,
-            {meta}: Partial<HTMLRouteChunk>
-        ): Promise<void> {
+        async process<P>(router: Router, {meta}: Partial<HTMLRouteChunk>): Promise<void> {
+            if (typeof document === 'undefined') {
+                return;
+            }
             if (meta) {
                 if (meta.title) {
                     const titleElement = getTitleElement();

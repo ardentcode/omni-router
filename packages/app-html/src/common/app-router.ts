@@ -1,8 +1,13 @@
-import {createHTMLRouteProcessor, createRedirectRouteProcessor, RouteDeclaration, Router} from 'ui-router';
+import {
+    createHTMLRouteProcessor,
+    createMetaRouteProcessor,
+    createRedirectRouteProcessor,
+    RouteDeclaration,
+    Router
+} from 'ui-router';
 import {createDocumentRouteHandler, DocumentRouteParams} from '../modules/document';
 import {createHomeRouteHandler, HomeRouteParams} from '../modules/home';
 import {ROOT_ID} from './config';
-import {createMetaRouteProcessor} from 'ui-router/src/meta';
 
 interface AppRoutes {
     home: HomeRouteParams;

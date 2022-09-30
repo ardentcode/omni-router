@@ -11,3 +11,4 @@ export * from './route-processor';
 export * from './route-declaration';
 export * from './redirect';
 export * from './html';
+export * from './meta';
