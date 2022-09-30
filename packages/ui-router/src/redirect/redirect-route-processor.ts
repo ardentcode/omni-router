@@ -11,9 +11,7 @@ export function createRedirectRouteProcessor<M = any>(): RouteProcessor<Redirect
             if (typeof redirect === 'string') {
                 await router.openPath(redirect);
             } else {
-                // TODO: fix typings
-                // @ts-ignore
-                await router.openRoute(redirect.name, redirect.params);
+                await router.openRoute(redirect.name, redirect.params as any);
             }
         }
     };

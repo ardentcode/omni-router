@@ -33,16 +33,17 @@ module.exports = () => {
     };
 
     const clientConfig = {
+        ...commonConfig,
         name: 'client',
         target: 'web',
         entry: './src/index.client.ts',
         output: {
             filename: 'public/index.js'
-        },
-        ...commonConfig
+        }
     };
 
     const serverConfig = {
+        ...commonConfig,
         name: 'server',
         target: 'node',
         entry: './src/index.server.ts',
@@ -51,8 +52,7 @@ module.exports = () => {
         },
         externals: [
             nodeExternals()
-        ],
-        ...commonConfig
+        ]
     };
 
     return [

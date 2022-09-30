@@ -1,5 +1,6 @@
 import './polyfills';
 
+export * from './client-router';
 export * from './route';
 export * from './router';
 export * from './route-name';

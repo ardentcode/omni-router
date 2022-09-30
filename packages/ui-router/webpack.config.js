@@ -1,11 +1,8 @@
 module.exports = () => {
 
-    return {
-
-        target: 'web',
+    const commonConfig = {
         stats: 'minimal',
         devtool: 'eval-source-map',
-
         entry: './src/index.ts',
 
         output: {
@@ -34,7 +31,26 @@ module.exports = () => {
                 }
             ]
         }
-
     };
+
+    const clientConfig = {
+        ...commonConfig,
+        target: 'web',
+        output: {
+            ...commonConfig.output,
+            filename: 'index.client.js'
+        }
+    };
+
+    const serverConfig = {
+        ...commonConfig,
+        target: 'node',
+        output: {
+            ...commonConfig.output,
+            filename: 'index.server.js'
+        }
+    };
+
+    return [clientConfig, serverConfig];
 
 };
