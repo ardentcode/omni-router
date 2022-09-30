@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express';
+import {createRouter} from 'ui-router';
+import {initAppRouter} from './common';
 import {ROOT_ID} from './common/config';
-import {renderDocumentTemplate} from './modules/document/document-template';
-import {renderHomeTemplate} from './modules/home/home-template';
 import {APP_PORT, createHTMLRenderer, htmlTemplate, PUBLIC_PATH} from './server';
 
 function main() {
@@ -14,22 +14,12 @@ function main() {
 
     app.use(express.static(PUBLIC_PATH));
 
-    // TODO: replace express routing with ui-router
-
-    app.get('/', (request: Request, response: Response) => {
-        const params = {};
+    app.get('*', async (request: Request, response: Response) => {
+        const router = initAppRouter(createRouter());
+        const route = await router.openPath(request.path);
         const content = htmlRenderer.renderHTML(htmlTemplate, {
-            TITLE: 'Home',
-            CONTENT: renderHomeTemplate(params)
-        });
-        response.send(content);
-    });
-
-    app.get('/document/:id', (request: Request, response: Response) => {
-        const params = {id: request.params.id};
-        const content = htmlRenderer.renderHTML(htmlTemplate, {
-            TITLE: `Document ${params.id}`,
-            CONTENT: renderDocumentTemplate(params)
+            TITLE: 'UI Router',
+            CONTENT: route?.data.htmlText ?? ''
         });
         response.send(content);
     });

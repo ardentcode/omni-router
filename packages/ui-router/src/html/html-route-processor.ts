@@ -9,6 +9,9 @@ interface HTMLRouteProcessorOptions {
 export function createHTMLRouteProcessor({rootId}: HTMLRouteProcessorOptions): RouteProcessor<HTMLRouteChunk> {
     return {
         async process<P>(router: Router, {htmlElement, htmlText}: Partial<HTMLRouteChunk>): Promise<void> {
+            if (typeof document === 'undefined') {
+                return;
+            }
             const rootElement = document.getElementById(rootId);
             if (!rootElement) {
                 throw new Error(`Root element #${rootId} was not found`);

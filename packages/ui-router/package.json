@@ -1,22 +1,23 @@
 {
-  "name": "ui-router",
-  "version": "0.1.0",
-  "description": "",
-  "main": "dist/index.js",
-  "types": "dist/types/index.d.ts",
-  "scripts": {
-    "build": "node node_modules/webpack/bin/webpack.js --progress --mode=production",
-    "watch": "node node_modules/webpack/bin/webpack.js --progress --mode=development --watch",
-    "test": "jest"
-  },
-  "author": "ArdentCode",
-  "license": "ISC",
-  "dependencies": {
-    "ts-loader": "^9.4.1",
-    "typescript": "^4.8.3",
-    "url-pattern": "^1.0.3",
-    "urlpattern-polyfill": "^6.0.1",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
-  }
+    "name": "ui-router",
+    "version": "0.1.0",
+    "description": "",
+    "main": "dist/index.server.js",
+    "browser": "dist/index.client.js",
+    "types": "dist/types/index.d.ts",
+    "scripts": {
+        "build": "node node_modules/webpack/bin/webpack.js --progress --mode=production",
+        "watch": "node node_modules/webpack/bin/webpack.js --progress --mode=development --watch",
+        "test": "jest"
+    },
+    "author": "ArdentCode",
+    "license": "ISC",
+    "dependencies": {
+        "ts-loader": "^9.4.1",
+        "typescript": "^4.8.3",
+        "url-pattern": "^1.0.3",
+        "urlpattern-polyfill": "^6.0.1",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0"
+    }
 }
