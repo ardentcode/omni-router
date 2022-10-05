@@ -4,6 +4,7 @@ export interface DocumentTemplateParams {
 
 export function renderDocumentTemplate({id}: DocumentTemplateParams): string {
     return `
-        Document #${id}
+        <a href="/">Home page</a>
+        <h1>Document #${id}</h1> <br/>
     `;
 }
