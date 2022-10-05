@@ -1,14 +1,14 @@
 import {RouteProcessor} from '../route-processor';
 import {Router} from '../router';
-import {HTMLRouteChunk} from './html-route-chunk';
+import {HTMLRouteData} from './html-route-data';
 
 interface HTMLRouteProcessorOptions {
     rootId: string;
 }
 
-export function createHTMLRouteProcessor({rootId}: HTMLRouteProcessorOptions): RouteProcessor<HTMLRouteChunk> {
+export function createHTMLRouteProcessor({rootId}: HTMLRouteProcessorOptions): RouteProcessor<HTMLRouteData> {
     return {
-        async process<P>(router: Router, {htmlElement, htmlText}: Partial<HTMLRouteChunk>): Promise<void> {
+        async process<P>(router: Router, {htmlElement, htmlText}: Partial<HTMLRouteData>): Promise<void> {
             if (typeof document === 'undefined') {
                 return;
             }

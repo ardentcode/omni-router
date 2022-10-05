@@ -1,17 +1,17 @@
 import {RouteProcessor} from '../route-processor';
 import {Router} from '../router';
-import {RedirectRouteChunk} from './redirect-route-chunk';
+import {RedirectRouteData} from './redirect-route-data';
 
-export function createRedirectRouteProcessor<M = any>(): RouteProcessor<RedirectRouteChunk<M>> {
+export function createRedirectRouteProcessor<M = any>(): RouteProcessor<RedirectRouteData<M>> {
     return {
-        async process<P>(router: Router<M>, {redirect}: Partial<RedirectRouteChunk<M>>): Promise<void> {
+        async process<P>(router: Router<M>, {redirect}: Partial<RedirectRouteData<M>>): Promise<void> {
             if (!redirect) {
                 return;
             }
             if (typeof redirect === 'string') {
-                await router.openPath(redirect);
+                await router.openRouteByPath(redirect);
             } else {
-                await router.openRoute(redirect.name, redirect.params as any);
+                await router.openRouteByName(redirect.name, redirect.params as any);
             }
         }
     };
