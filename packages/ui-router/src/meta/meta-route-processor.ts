@@ -1,10 +1,14 @@
 import {RouteProcessor} from '../route-processor';
 import {Router} from '../router';
-import {HTMLRouteChunk} from '../html';
+import {MetaRouteData} from './meta-route-data';
 
-export function createMetaRouteProcessor(): RouteProcessor<HTMLRouteChunk> {
+interface MetaRouteProcessorOptions {
+
+}
+
+export function createMetaRouteProcessor({}: MetaRouteProcessorOptions = {}): RouteProcessor<MetaRouteData> {
     return {
-        async process<P>(router: Router, {meta}: Partial<HTMLRouteChunk>): Promise<void> {
+        async process<P>(router: Router, {meta}: Partial<MetaRouteData>): Promise<void> {
             if (typeof document === 'undefined') {
                 return;
             }

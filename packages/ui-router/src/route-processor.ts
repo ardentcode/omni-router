@@ -1,6 +1,7 @@
-import {RouteChunk} from './route-chunk';
+import {RouteData} from './route-data';
+import {RouteInfo} from './route-info';
 import {Router} from './router';
 
-export interface RouteProcessor<C extends RouteChunk = RouteChunk> {
-    process?: (router: Router, chunk: Partial<C>) => void | Promise<void>;
+export interface RouteProcessor<D extends RouteData = RouteData> {
+    process?: (router: Router, data: Partial<D>, info: RouteInfo) => void | Promise<void>;
 }

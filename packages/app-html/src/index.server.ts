@@ -1,7 +1,6 @@
 import express, {Request, Response} from 'express';
 import {createRouter} from 'ui-router';
-import {initAppRouter} from './common';
-import {ROOT_ID} from './common/config';
+import {initAppRouter, ROOT_ID} from './common';
 import {APP_PORT, createHTMLRenderer, htmlTemplate, PUBLIC_PATH} from './server';
 
 function main() {
@@ -16,9 +15,9 @@ function main() {
 
     app.get('*', async (request: Request, response: Response) => {
         const router = initAppRouter(createRouter());
-        const route = await router.openPath(request.path);
+        const route = await router.openRouteByPath(request.path);
         const content = htmlRenderer.renderHTML(htmlTemplate, {
-            TITLE: 'UI Router',
+            TITLE: route?.data.meta?.title ?? '',
             CONTENT: route?.data.htmlText ?? ''
         });
         response.send(content);

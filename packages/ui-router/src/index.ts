@@ -4,7 +4,7 @@ export * from './client-router';
 export * from './route';
 export * from './router';
 export * from './route-name';
-export * from './route-chunk';
+export * from './route-data';
 export * from './route-handler';
 export * from './route-identity';
 export * from './route-processor';

@@ -1,18 +1,17 @@
 import {Route} from './route';
-import {RouteChunk} from './route-chunk';
+import {RouteData} from './route-data';
 import {RouteDeclaration} from './route-declaration';
+import {RouteInfo} from './route-info';
 import {RouteProcessor} from './route-processor';
-import {RouterEvent} from './router-event';
-import {RouterListener} from './router-listener';
 
 export interface Router<M = any> {
     registerProcessor: (processor: RouteProcessor) => void;
     registerRoute: (declaration: RouteDeclaration<M>) => void;
     getCurrentRoute: () => Route<M> | null;
-    openPath: (path: string) => Promise<Route<M> | null>;
-    openRoute: <N extends keyof M & string>(name: N, params?: M[N]) => Promise<Route<M> | null>;
-    addListener: (listener: RouterListener<M>) => void;
-    removeListener: (listener: RouterListener<M>) => void;
+    getRouteByPath: (path: string) => Promise<Route<M> | null>;
+    getRouteByName: <N extends keyof M & string>(name: N, params?: M[N]) => Promise<Route<M> | null>;
+    openRouteByPath: (path: string) => Promise<Route<M>>;
+    openRouteByName: <N extends keyof M & string>(name: N, params?: M[N]) => Promise<Route<M>>;
 }
 
 export interface RouterOptions {
@@ -23,8 +22,8 @@ export function createRouter<M = any>({}: RouterOptions = {}): Router<M> {
 
     const processors: Set<RouteProcessor> = new Set();
     const declarations: Map<string, RouteDeclaration<M>> = new Map();
-    const listeners: Set<RouterListener<M>> = new Set();
     let currentRoute: Route<M> | null = null;
+    let abortController: AbortController | null = null;
 
     const registerProcessor = (processor: RouteProcessor): void => {
         processors.add(processor);
@@ -38,55 +37,64 @@ export function createRouter<M = any>({}: RouterOptions = {}): Router<M> {
         return currentRoute;
     };
 
-    const openPath = async (path: string): Promise<Route<M> | null> => {
+    const getRouteByPath = async (path: string): Promise<Route<M> | null> => {
         const declaration = getRouteDeclarationByPath(path);
         if (!declaration) {
             return null;
         }
-        if (path === currentRoute?.path) {
-            return currentRoute;
-        }
-        const newRoute = await openRouteDeclaration(declaration, path);
-        runListeners({
-            router,
-            currentRoute,
-            newRoute
-        });
-        currentRoute = newRoute;
-        return newRoute;
+        return await resolveRoute(declaration, path);
     };
 
-    const openRoute = async <N extends keyof M & string>(name: N, params: M[N] = {} as M[N]): Promise<Route<M> | null> => {
+    const getRouteByName = async <N extends keyof M & string>(name: N, params: M[N] = {} as M[N]): Promise<Route<M> | null> => {
         const declaration = declarations.get(name);
         if (!declaration) {
             return null;
         }
-        const path = resolvePath(declaration.path, params as any);
-        if (path === currentRoute?.path) {
-            return currentRoute;
+        const path = buildPathWithParams(declaration.path, params as any);
+        return await resolveRoute(declaration, path);
+    };
+
+    const openRouteByPath = async (path: string): Promise<Route<M>> => {
+        const signal = startLoadingRoute();
+        const declaration = getRouteDeclarationByPath(path);
+        if (!declaration) {
+            throw new Error(`Route with path "${path}" not found`);
         }
-        const newRoute = await openRouteDeclaration(declaration, path);
-        runListeners({
-            router,
-            currentRoute,
-            newRoute
-        });
-        currentRoute = newRoute;
-        return newRoute;
+        const params = {signal};
+        const newRoute = await resolveRoute(declaration, path, params);
+        await runProcessors(newRoute.data, params);
+        finishLoadingRoute(newRoute, signal);
+        // return newRoute;
+        return currentRoute as Route<M>;
     };
 
-    const addListener = (listener: RouterListener): void => {
-        listeners.add(listener);
+    const openRouteByName = async <N extends keyof M & string>(name: N, params: M[N] = {} as M[N]): Promise<Route<M>> => {
+        const signal = startLoadingRoute();
+        const declaration = declarations.get(name);
+        if (!declaration) {
+            throw new Error(`Route with name "${name}" not found`);
+        }
+        const info = {signal};
+        const path = buildPathWithParams(declaration.path, params as any);
+        const newRoute = await resolveRoute(declaration, path, info);
+        await runProcessors(newRoute.data, {signal});
+        finishLoadingRoute(newRoute, signal);
+        // return newRoute;
+        return currentRoute as Route<M>;
     };
 
-    const removeListener = (listener: RouterListener): void => {
-        listeners.delete(listener);
+    const startLoadingRoute = () => {
+        abortController?.abort();
+        abortController = new AbortController();
+        return abortController.signal;
     };
 
-    const runListeners = (event: RouterEvent<M>): void => {
-        listeners.forEach((listener: RouterListener): void => {
-            listener(event);
-        });
+    const finishLoadingRoute = (newRoute: Route<M>, signal: AbortSignal) => {
+        if (signal.aborted) {
+            // throw new Error('Route has been aborted');
+        } else {
+            currentRoute = newRoute;
+        }
     };
 
     const getRouteDeclarationByPath = (path: string): RouteDeclaration<M> | null => {
@@ -96,10 +104,9 @@ export function createRouter<M = any>({}: RouterOptions = {}): Router<M> {
         }) ?? null;
     };
 
-    const openRouteDeclaration = async (declaration: RouteDeclaration<M>, path: string): Promise<Route<M>> => {
-        const params = getParamsFromPath(declaration.path, path);
-        const data = await declaration.handler(params);
-        await runProcessors(data);
+    const resolveRoute = async (declaration: RouteDeclaration<M>, path: string, info?: RouteInfo): Promise<Route<M>> => {
+        const params = extractParamsFromPath(declaration.path, path);
+        const data = info ? await declaration.handler(params, info) : {};
         return {
             name: declaration.name,
             path,
@@ -108,21 +115,21 @@ export function createRouter<M = any>({}: RouterOptions = {}): Router<M> {
         };
     };
 
-    const getParamsFromPath = <P = any>(pattern: string, path: string): P => {
+    const extractParamsFromPath = <P = any>(pattern: string, path: string): P => {
         const urlPattern = new URLPattern({pathname: pattern});
         const urlMatch = urlPattern.exec({pathname: path});
         return (urlMatch?.pathname.groups ?? {}) as P;
     };
 
-    const resolvePath = (path: string, params: Record<string, string> = {}): string => {
+    const buildPathWithParams = (path: string, params: Record<string, string> = {}): string => {
         return Object.entries(params).reduce((path: string, [name, value]: [string, string]): string => {
             return path.replace(`:${name}`, value);
         }, path);
     };
 
-    const runProcessors = async (data: RouteChunk): Promise<void> => {
+    const runProcessors = async (data: RouteData, info: RouteInfo): Promise<void> => {
         await Promise.all(Array.from(processors).map((processor) => {
-            return processor.process?.(router, data);
+            return processor.process?.(router, data, info);
         }));
     };
 
@@ -130,10 +137,10 @@ export function createRouter<M = any>({}: RouterOptions = {}): Router<M> {
         registerProcessor,
         registerRoute,
         getCurrentRoute,
-        openPath,
-        openRoute,
-        addListener,
-        removeListener
+        getRouteByPath,
+        getRouteByName,
+        openRouteByPath,
+        openRouteByName
     };
 
     return router;

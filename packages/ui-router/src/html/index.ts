@@ -1,2 +1,2 @@
-export * from './html-route-chunk';
+export * from './html-route-data';
 export * from './html-route-processor';
