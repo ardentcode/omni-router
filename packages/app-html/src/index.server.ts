@@ -1,3 +1,4 @@
+import './server/polyfills';
 import express, {Request, Response} from 'express';
 import {createRouter} from 'ui-router';
 import {initAppRouter, ROOT_ID} from './common';

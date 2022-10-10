@@ -10,6 +10,7 @@ import {createHomeRouteHandler, HomeRouteParams} from '../modules/home';
 import {createNotFoundRouteHandler, NotFoundRouteParams} from '../modules/not-found';
 import {ROOT_ID} from './config';
 import {BookListRouteParams, createBookListRouteHandler} from '../modules/books-list';
+import {LoadingIndicator} from './loading-indicator';
 
 interface AppRoutes {
     'home': HomeRouteParams;
@@ -18,7 +19,7 @@ interface AppRoutes {
     'not-found': NotFoundRouteParams;
 }
 
-export function initAppRouter(router: Router<AppRoutes>): Router<AppRoutes> {
+export function initAppRouter(router: Router<AppRoutes>, loadingIndicator?: LoadingIndicator): Router<AppRoutes> {
     const redirectRouteProcessor = createRedirectRouteProcessor();
 
     const htmlRouteProcessor = createHTMLRouteProcessor({
@@ -36,13 +37,19 @@ export function initAppRouter(router: Router<AppRoutes>): Router<AppRoutes> {
     const documentRoute: RouteDeclaration<AppRoutes> = {
         name: 'document',
         path: '/document/:id',
-        handler: createDocumentRouteHandler()
+        handler: createDocumentRouteHandler({loadingIndicator})
+    };
+
+    const limitedBooksListRoute: RouteDeclaration<AppRoutes> = {
+        name: 'books-list',
+        path: '/books-list?limit', // actually this does not match with query params
+        handler: createBookListRouteHandler({loadingIndicator})
     };
 
     const booksListRoute: RouteDeclaration<AppRoutes> = {
         name: 'books-list',
         path: '/books-list',
-        handler: createBookListRouteHandler()
+        handler: createBookListRouteHandler({loadingIndicator})
     };
 
     const notFoundRoute: RouteDeclaration<AppRoutes> = {
@@ -55,6 +62,7 @@ export function initAppRouter(router: Router<AppRoutes>): Router<AppRoutes> {
     router.registerProcessor(htmlRouteProcessor);
     router.registerProcessor(metaRouteProcessor);
     router.registerRoute(homeRoute);
+    router.registerRoute(limitedBooksListRoute);
     router.registerRoute(booksListRoute);
     router.registerRoute(documentRoute);
     router.registerRoute(notFoundRoute);

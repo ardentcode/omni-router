@@ -1,34 +1,34 @@
 const nodeExternals = require('webpack-node-externals');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = () => {
+
+    const commonRules = [
+        {
+            test: /\.tsx?$/,
+            exclude: /node_modules/,
+            use: [
+                {
+                    loader: 'ts-loader',
+                }
+            ]
+        },
+        {
+            test: /\.html?$/,
+            exclude: /node_modules/,
+            use: [
+                {
+                    loader: 'raw-loader'
+                }
+            ]
+        }
+    ]
 
     const commonConfig = {
         stats: 'minimal',
         devtool: 'source-map',
         resolve: {
             extensions: ['.ts', '.js']
-        },
-        module: {
-            rules: [
-                {
-                    test: /\.tsx?$/,
-                    exclude: /node_modules/,
-                    use: [
-                        {
-                            loader: 'ts-loader',
-                        }
-                    ]
-                },
-                {
-                    test: /\.html?$/,
-                    exclude: /node_modules/,
-                    use: [
-                        {
-                            loader: 'raw-loader'
-                        }
-                    ]
-                }
-            ]
         }
     };
 
@@ -39,6 +39,19 @@ module.exports = () => {
         entry: './src/index.client.ts',
         output: {
             filename: 'public/index.js'
+        },
+        plugins: [new MiniCssExtractPlugin({
+            filename: "public/style.css"
+        })],
+        module: {
+            rules: [
+                ...commonRules,
+                {
+                    test: /\.css$/,
+                    use: [MiniCssExtractPlugin.loader, "css-loader"],
+                }
+
+            ]
         }
     };
 
@@ -52,7 +65,10 @@ module.exports = () => {
         },
         externals: [
             nodeExternals()
-        ]
+        ],
+        module: {
+            rules: commonRules
+        }
     };
 
     return [
