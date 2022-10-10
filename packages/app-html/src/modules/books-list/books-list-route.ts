@@ -1,6 +1,7 @@
 import {HTMLRouteData, RouteHandler} from 'ui-router';
 import {renderBookListTemplate} from './books-list-template';
 import {LoadingIndicator} from '../../common/loading-indicator';
+import {default as axios} from 'axios';
 
 export interface BookListRouteParams {
     limit: number;
@@ -10,23 +11,20 @@ export interface BookListRouteDeps {
     loadingIndicator?: LoadingIndicator;
 }
 
+interface Book {
+    name: string;
+}
+
+type Books = Array<Book>
+
 export function createBookListRouteHandler({loadingIndicator}: BookListRouteDeps): RouteHandler<BookListRouteParams, HTMLRouteData> {
     return async (params: BookListRouteParams) => {
         loadingIndicator?.show();
-        let books = [];
+        let books: Books = [];
         try {
-            books = await fetch('https://www.anapioficeandfire.com/api/books', {
-                headers: {'Content-Type': 'application/json'},
-                method: 'GET'
-            }).then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    return [];
-                }
-            });
+            books = (await axios.get<Books>('https://www.anapioficeandfire.com/api/books')).data;
         } catch (e) {
-            console.log('fetch error');
+            console.log('fetch error: ' + e.message);
         }
 
         loadingIndicator?.hide();
