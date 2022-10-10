@@ -1,5 +1,6 @@
 import {Route} from './route';
 import {createRouter, Router, RouterOptions} from './router';
+import {RouteOptions} from './types/route-options';
 
 export interface ClientRouterOptions extends RouterOptions {
 
@@ -13,22 +14,31 @@ export function createClientRouter<M = any>({...deps}: ClientRouterOptions = {})
     const originalOpenRouteByPath = router.openRouteByPath;
     const originalOpenRouteByName = router.openRouteByName;
 
-    router.openRouteByPath = async (path: string): Promise<Route<M>> => {
+    router.openRouteByPath = async (path: string, options?: RouteOptions): Promise<Route<M>> => {
         const route = await originalOpenRouteByPath(path);
         if (route) {
-            window.navigation.navigate(route.path, {
+            const navigateOptions: NavigationNavigateOptions = {
                 info: NAVIGATION_FROM_ROUTER
-            });
+            };
+            if (options?.isRedirection) {
+                navigateOptions.history = 'replace';
+            }
+            window.navigation.navigate(route.path, navigateOptions);
         }
         return route as Route<M>;
     };
 
-    router.openRouteByName = async <N extends keyof M & string>(name: N, params: M[N] = {} as M[N]): Promise<Route<M>> => {
+    router.openRouteByName = async <N extends keyof M & string>(name: N, params: M[N] = {} as M[N], options: RouteOptions = {}): Promise<Route<M>> => {
         const route = await originalOpenRouteByName(name, params);
         if (route) {
-            window.navigation.navigate(route.path, {
+            const navigateOptions: NavigationNavigateOptions = {
                 info: NAVIGATION_FROM_ROUTER
-            });
+            };
+            if (options.isRedirection) {
+                navigateOptions.history = 'replace';
+            }
+
+            window.navigation.navigate(route.path, navigateOptions);
         }
         return route as Route<M>;
     };

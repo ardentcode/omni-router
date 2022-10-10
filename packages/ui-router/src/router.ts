@@ -3,6 +3,7 @@ import {RouteData} from './route-data';
 import {RouteDeclaration} from './route-declaration';
 import {RouteInfo} from './route-info';
 import {RouteProcessor} from './route-processor';
+import {RouteOptions} from './types/route-options';
 
 export interface Router<M = any> {
     registerProcessor: (processor: RouteProcessor) => void;
@@ -10,8 +11,8 @@ export interface Router<M = any> {
     getCurrentRoute: () => Route<M> | null;
     getRouteByPath: (path: string) => Promise<Route<M> | null>;
     getRouteByName: <N extends keyof M & string>(name: N, params?: M[N]) => Promise<Route<M> | null>;
-    openRouteByPath: (path: string) => Promise<Route<M>>;
-    openRouteByName: <N extends keyof M & string>(name: N, params?: M[N]) => Promise<Route<M>>;
+    openRouteByPath: (path: string, options?: RouteOptions) => Promise<Route<M>>;
+    openRouteByName: <N extends keyof M & string>(name: N, params?: M[N], options?: RouteOptions) => Promise<Route<M>>;
 }
 
 export interface RouterOptions {

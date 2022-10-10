@@ -9,9 +9,9 @@ export function createRedirectRouteProcessor<M = any>(): RouteProcessor<Redirect
                 return;
             }
             if (typeof redirect === 'string') {
-                await router.openRouteByPath(redirect);
+                await router.openRouteByPath(redirect, {isRedirection: true});
             } else {
-                await router.openRouteByName(redirect.name, redirect.params as any);
+                await router.openRouteByName(redirect.name, redirect.params as any, {isRedirection: true});
             }
         }
     };
