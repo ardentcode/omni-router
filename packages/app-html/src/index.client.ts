@@ -3,13 +3,10 @@ import {createClientRouter} from 'ui-router';
 import {initAppRouter} from './common';
 import {LoadingIndicator} from './common/loading-indicator';
 
-function main() {
+async function main() {
     const loadingIndicator = new LoadingIndicator();
-    const router = initAppRouter(
-        createClientRouter({
-            path: window.location.pathname
-        }), loadingIndicator
-    );
+    const router = initAppRouter(createClientRouter(), loadingIndicator);
+    await router.openRouteByPath(window.location.pathname + window.location.search);
     // @ts-ignore
     window.router = router; // for debugging purpose - to be removed?
 }

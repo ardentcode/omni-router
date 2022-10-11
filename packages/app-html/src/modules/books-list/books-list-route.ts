@@ -1,7 +1,7 @@
-import {HTMLRouteData, RouteHandler} from 'ui-router';
-import {renderBookListTemplate} from './books-list-template';
-import {LoadingIndicator} from '../../common/loading-indicator';
 import {default as axios} from 'axios';
+import {HTMLRouteData, RouteHandler} from 'ui-router';
+import {LoadingIndicator} from '../../common/loading-indicator';
+import {renderBookListTemplate} from './books-list-template';
 
 export interface BookListRouteParams {
     limit: number;
@@ -29,7 +29,9 @@ export function createBookListRouteHandler({loadingIndicator}: BookListRouteDeps
 
         loadingIndicator?.hide();
         return {
-            htmlText: renderBookListTemplate(books.slice(params.limit - 1)),
+            html: {
+                content: renderBookListTemplate(books.slice(params.limit - 1))
+            },
             meta: {
                 title: `Books list`,
                 author: 'author of page'

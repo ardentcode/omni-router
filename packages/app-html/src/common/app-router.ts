@@ -1,10 +1,4 @@
-import {
-    createHTMLRouteProcessor,
-    createMetaRouteProcessor,
-    createRedirectRouteProcessor,
-    RouteDeclaration,
-    Router
-} from 'ui-router';
+import {createHTMLRouteProcessor, createMetaRouteProcessor, createRedirectRouteProcessor, HTMLRouteData, MetaRouteData, RedirectRouteData, RouteDeclaration, Router} from 'ui-router';
 import {createDocumentRouteHandler, DocumentRouteParams} from '../modules/document';
 import {createHomeRouteHandler, HomeRouteParams} from '../modules/home';
 import {createNotFoundRouteHandler, NotFoundRouteParams} from '../modules/not-found';
@@ -19,7 +13,11 @@ interface AppRoutes {
     'not-found': NotFoundRouteParams;
 }
 
-export function initAppRouter(router: Router<AppRoutes>, loadingIndicator?: LoadingIndicator): Router<AppRoutes> {
+interface AppRouteData extends HTMLRouteData, MetaRouteData, RedirectRouteData<AppRoutes> {
+
+}
+
+export function initAppRouter(router: Router<AppRoutes, AppRouteData>, loadingIndicator?: LoadingIndicator): Router<AppRoutes, AppRouteData> {
     const redirectRouteProcessor = createRedirectRouteProcessor();
 
     const htmlRouteProcessor = createHTMLRouteProcessor({

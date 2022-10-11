@@ -8,7 +8,9 @@ export interface NotFoundRouteParams {
 export function createNotFoundRouteHandler(): RouteHandler<NotFoundRouteParams, HTMLRouteData> {
     return (params: NotFoundRouteParams) => {
         return {
-            htmlText: renderNotFoundTemplate(params),
+            html: {
+                content: renderNotFoundTemplate(params)
+            },
             meta: {
                 title: `Not Found`
             }

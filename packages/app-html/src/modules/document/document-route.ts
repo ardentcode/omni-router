@@ -15,13 +15,17 @@ export function createDocumentRouteHandler({loadingIndicator}: DocumentRouteDeps
         loadingIndicator?.show();
         if (params.id.startsWith('0')) {
             return {
-                redirect: `/document/${parseInt(params.id)}`
+                redirect: {
+                    path: `/document/${parseInt(params.id)}`
+                }
             };
         }
         await new Promise(resolve => setTimeout(resolve, 1000));
         loadingIndicator?.hide();
         return {
-            htmlText: renderDocumentTemplate(params),
+            html: {
+                content: renderDocumentTemplate(params)
+            },
             meta: {
                 title: `Document #${params.id}`,
                 author: 'Author of document',
