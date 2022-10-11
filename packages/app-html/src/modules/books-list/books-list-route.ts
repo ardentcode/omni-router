@@ -5,6 +5,7 @@ import {renderBookListTemplate} from './books-list-template';
 
 export interface BookListRouteParams {
     limit: number;
+    delay_sec: number;
 }
 
 export interface BookListRouteDeps {
@@ -27,10 +28,14 @@ export function createBookListRouteHandler({loadingIndicator}: BookListRouteDeps
             console.log('fetch error: ' + e.message);
         }
 
+        if(params.delay_sec != null) {
+            await new Promise(resolve => setTimeout(resolve, params.delay_sec * 1000));
+        }
+
         loadingIndicator?.hide();
         return {
             html: {
-                content: renderBookListTemplate(books.slice(params.limit - 1))
+                content: renderBookListTemplate(books.slice(0, params.limit))
             },
             meta: {
                 title: `Books list`,

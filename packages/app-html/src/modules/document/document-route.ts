@@ -4,6 +4,7 @@ import {renderDocumentTemplate} from './document-template';
 
 export interface DocumentRouteParams {
     id: string;
+    delay_sec: number;
 }
 
 export interface DocumentRouteDeps {
@@ -20,7 +21,9 @@ export function createDocumentRouteHandler({loadingIndicator}: DocumentRouteDeps
                 }
             };
         }
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        if(params.delay_sec != null) {
+            await new Promise(resolve => setTimeout(resolve, params.delay_sec * 1000));
+        }
         loadingIndicator?.hide();
         return {
             html: {
