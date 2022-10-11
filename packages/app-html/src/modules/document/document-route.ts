@@ -1,6 +1,6 @@
 import {HTMLRouteData, RedirectRouteData, RouteHandler} from 'ui-router';
-import {renderDocumentTemplate} from './document-template';
 import {LoadingIndicator} from '../../common/loading-indicator';
+import {renderDocumentTemplate} from './document-template';
 
 export interface DocumentRouteParams {
     id: string;

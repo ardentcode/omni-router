@@ -105,7 +105,7 @@ export function createRouter<M = any, D = any>({
         await routeProcessorRunner.runOnOpenRouteEnd({router, route: handledRoute, signal});
         await finishLoadingRoute(route, signal);
         await routeProcessorRunner.runOnOpenRouteRedirect({router, route: handledRoute});
-        return route;
+        return handledRoute;
     };
 
     const startLoadingRoute = async (): Promise<AbortSignal> => {

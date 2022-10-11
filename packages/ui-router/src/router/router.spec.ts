@@ -16,20 +16,20 @@ interface PostRouteParams {
     id: string;
 }
 
-function createHomeRoute(): RouteDeclaration<TestRoutes, 'home'> {
+function createHomeRoute(): RouteDeclaration<HomeRouteParams> {
     return {
         name: 'home',
         path: '/',
-        handler: jest.fn()
-    } as RouteDeclaration<TestRoutes, 'home'>;
+        handler: jest.fn<any>()
+    };
 }
 
-function createPostRoute(): RouteDeclaration<TestRoutes, 'post'> {
+function createPostRoute(): RouteDeclaration<PostRouteParams> {
     return {
         name: 'post',
         path: '/post/:id',
-        handler: jest.fn()
-    } as RouteDeclaration<TestRoutes, 'post'>;
+        handler: jest.fn<any>()
+    };
 }
 
 function createMockProcessor(): RouteProcessor {
