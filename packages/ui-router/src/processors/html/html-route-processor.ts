@@ -8,7 +8,7 @@ interface HTMLRouteProcessorOptions {
 
 export function createHTMLRouteProcessor({rootId, fragmentsIds}: HTMLRouteProcessorOptions): RouteProcessor<HTMLRouteData> {
     return {
-        async onOpenRouteEnd({route}): Promise<void> {
+        async onOpenRouteSuccess({route}): Promise<void> {
             if (typeof document === 'undefined') {
                 return;
             }

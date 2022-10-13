@@ -16,11 +16,7 @@ export function createBookRouteHandler({
     return async ({id}: BookRouteParams, {router, signal}: RouteInfo) => {
         const book = await bookApi?.getBook({id, signal});
         if (!book) {
-            return {
-                redirect: {
-                    name: 'books'
-                }
-            };
+            throw new Error(`Book "${id}" does not exist`);
         }
         return {
             html: {

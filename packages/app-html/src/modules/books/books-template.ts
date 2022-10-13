@@ -19,8 +19,8 @@ export function renderBooksTemplate({books, router}: BooksTemplateOptions): stri
                 </li>
             `).join('')}
             <li>
-                <a href="${router.getRouteByName('book', {id: 'not-existing'})}">
-                    Not Existing Book (should redirect back to books)
+                <a href="${router.getRouteByName('book', {id: '0'})}">
+                    Not Existing Book
                 </a>
             </li>
         </ul>

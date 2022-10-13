@@ -1,28 +1,34 @@
-import {OpenRouteStartEvent, RouteProcessor} from 'ui-router';
+import {OpenRouteStartEvent, RouteProcessor, Router} from 'ui-router';
 import './loading-indicator-route-processor.css';
 
 export function createLoadingIndicatorRouteProcessor(): RouteProcessor {
 
-    const createElement = (): HTMLElement => {
-        const element = document.createElement('div');
-        element.className = 'loading-indicator';
-        element.style.display = 'none';
-        document.body.appendChild(element);
-        return element;
-    };
-
-    const element: HTMLElement = createElement();
+    let element: HTMLElement;
 
     const onOpenRouteStart = ({router}: OpenRouteStartEvent): void => {
-        try {
-            router.getCurrentRoute();
-            element.style.display = 'inline-block';
-        } catch {
+        if (!isInitialRender(router)) {
+            element = createElement();
         }
     };
 
     const onOpenRouteEnd = (): void => {
-        element.style.display = 'none';
+        element?.remove();
+    };
+
+    const createElement = (): HTMLElement => {
+        const element = document.createElement('div');
+        element.className = 'loading-indicator';
+        document.body.appendChild(element);
+        return element;
+    };
+
+    const isInitialRender = (router: Router): boolean => {
+        try {
+            router.getCurrentRoute();
+            return false;
+        } catch {
+            return true;
+        }
     };
 
     return {

@@ -18,7 +18,7 @@ export function renderHeaderTemplate({router, info}: HeaderTemplateParams): stri
                 <a href="${router.getRouteByName('books')}">&#128216; Books</a>
             </nav>      
             <div class="info" id="${INFO_ID}">
-                ${info}
+                ${info ?? ''}
             </div>
         </div> 
     `;

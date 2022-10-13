@@ -19,7 +19,7 @@ export interface OpenRouteStartEvent {
 
 export interface OpenRouteEndEvent<D = unknown> {
     router: Router;
-    route: Route<unknown, D>;
+    route: Route<unknown, null>;
     signal: AbortSignal;
 }
 

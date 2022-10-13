@@ -18,13 +18,13 @@ export function renderPageTemplate({router, title, content, info}: PageTemplateO
         <head>
             <meta charset="utf-8">
             <meta content="width=device-width, initial-scale=1" name="viewport">
-            <title>${title}</title>
+            <title>${title ?? ''}</title>
             <link href="/index.css" rel="stylesheet" type="text/css">
         </head>
         <body>
             ${renderHeaderTemplate({router, info})}
             <main id="${APP_ID}">
-                ${content}
+                ${content ?? ''}
             </main>
             <script src="/index.js"></script>
         </body>

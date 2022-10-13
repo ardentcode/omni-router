@@ -1,4 +1,4 @@
-import {HandlerNotFoundError, RouteAbortedError, RouteNotFoundError} from '../errors';
+import {HandlerNotFoundError, ROUTE_ABORTED_ERROR_CODE, RouteAbortedError, RouteNotFoundError} from '../errors';
 import {Route, RouteDeclaration, RouteHandler, RouteInfo, RouteProcessor} from '../route';
 import {createPathParser, createRouteDeclarationRepository, createRouteProcessorRunner, PathParser, RouteDeclarationRepository, RouteProcessorRunner} from '../utils';
 
@@ -84,7 +84,7 @@ export function createRouter<M = any, D = any>({
         }
         const defaultParams = pathParser?.extractParamsFromPath<M[N]>(declaration.path, path);
         const pathWithParams = pathParser.buildPathWithParams(declaration.path, {...defaultParams, ...params});
-        const route = await resolveRoute(declaration, pathWithParams);
+        const route = resolveRoute(declaration, pathWithParams);
         return await openRoute(declaration, route);
     };
 
@@ -94,21 +94,31 @@ export function createRouter<M = any, D = any>({
             throw new RouteNotFoundError(`Route with name "${name}" not found`, {name});
         }
         const pathWithParams = pathParser.buildPathWithParams(declaration.path, params);
-        const route = await resolveRoute(declaration, pathWithParams);
+        const route = resolveRoute(declaration, pathWithParams);
         return await openRoute(declaration, route);
     };
 
     const openRoute = async <P = unknown>(declaration: RouteDeclaration<P, D>, route: Route<P, null>): Promise<Route<P, D>> => {
         const signal = await startLoadingRoute(route);
-        await routeProcessorRunner.runOnOpenRouteStart({router, route, signal});
-        await checkLoadingRoute(route, signal);
-        const handledRoute = await handleRoute(declaration, route, {router, signal});
-        await checkLoadingRoute(route, signal);
-        await routeProcessorRunner.runOnOpenRouteEnd({router, route: handledRoute, signal});
-        await checkLoadingRoute(route, signal);
-        await finishLoadingRoute(handledRoute);
-        await routeProcessorRunner.runOnOpenRouteSuccess({router, route: handledRoute});
-        return handledRoute;
+        try {
+            await routeProcessorRunner.runOnOpenRouteStart({router, route, signal});
+            await checkLoadingRoute(route, signal);
+            const handledRoute = await handleRoute(declaration, route, {router, signal});
+            await checkLoadingRoute(route, signal);
+            await routeProcessorRunner.runOnOpenRouteEnd({router, route, signal});
+            await checkLoadingRoute(route, signal);
+            await finishLoadingRoute(handledRoute);
+            await routeProcessorRunner.runOnOpenRouteSuccess({router, route: handledRoute});
+            return handledRoute;
+        } catch (error) {
+            await routeProcessorRunner.runOnOpenRouteEnd({router, route, signal});
+            if (error && error.code === ROUTE_ABORTED_ERROR_CODE) {
+                await routeProcessorRunner.runOnOpenRouteAbort({router, route});
+            } else {
+                await routeProcessorRunner.runOnOpenRouteError({router, route, error});
+            }
+            throw error;
+        }
     };
 
     const resolveRoute = <P = unknown>(declaration: RouteDeclaration<P, D>, path: string): Route<P, null> => {
@@ -126,15 +136,13 @@ export function createRouter<M = any, D = any>({
     const handleRoute = async <P = unknown>(declaration: RouteDeclaration<P, D>, route: Route<P, null>, info: RouteInfo): Promise<Route<P, D>> => {
         try {
             const handler = await getRouteHandler(declaration);
-            const data = await handler!(route.params, info);
+            const data = await handler(route.params, info);
             return decorateRoute({
                 ...route,
                 data
             });
         } catch (error) {
             loadingRoute = null;
-            await checkLoadingRoute(route, info.signal);
-            await routeProcessorRunner.runOnOpenRouteError({router, route, error});
             throw error;
         }
     };
@@ -158,6 +166,9 @@ export function createRouter<M = any, D = any>({
         if (!handler) {
             throw new HandlerNotFoundError(`Handler for route "${declaration.name}" not found`, {name: declaration.name});
         }
+        if (typeof handler !== 'function') {
+            throw new HandlerNotFoundError(`Handler for route "${declaration.name}" is not a function (${typeof handler})`, {name: declaration.name});
+        }
         routeHandlers.set(declaration, handler);
         return handler;
     };
@@ -172,7 +183,6 @@ export function createRouter<M = any, D = any>({
     const checkLoadingRoute = async (route: Route<unknown, null>, signal: AbortSignal): Promise<void> => {
         if (signal.aborted) {
             loadingRoute = null;
-            await routeProcessorRunner.runOnOpenRouteAbort({router, route});
             throw new RouteAbortedError(`Route "${route.name}" has been aborted`, {route});
         }
     };

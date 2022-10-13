@@ -37,6 +37,19 @@ function createPostRoute(): RouteDeclaration<PostRouteParams> {
     };
 }
 
+function createLazyRoute(): RouteDeclaration<LazyRouteParams> {
+    return {
+        name: 'lazy',
+        path: '/lazy',
+        handler: {
+            lazy: jest.fn<any>(async () => {
+                await new Promise(resolve => setTimeout(resolve));
+                return () => ({});
+            })
+        }
+    };
+}
+
 function createMockProcessor(): RouteProcessor {
     return {
         onGetRouteStart: jest.fn<any>(),
@@ -65,13 +78,6 @@ describe('getRoutes', () => {
 
 describe('getCurrentRoute', () => {
 
-    it('throws error if there is no current route', async () => {
-        const router = createRouter<TestRoutes>();
-        const homeRoute = createHomeRoute();
-        router.registerRoute(homeRoute);
-        expect(() => router.getCurrentRoute()).toThrow();
-    });
-
     it('returns correct current route', async () => {
         const router = createRouter<TestRoutes>();
         const homeRoute = createHomeRoute();
@@ -80,6 +86,36 @@ describe('getCurrentRoute', () => {
         const currentRoute = router.getCurrentRoute();
         expect(currentRoute).not.toBeNull();
         expect(currentRoute.name).toEqual('home');
+    });
+
+    it('throws error if there is no current route', async () => {
+        const router = createRouter<TestRoutes>();
+        const homeRoute = createHomeRoute();
+        router.registerRoute(homeRoute);
+        expect(() => router.getCurrentRoute()).toThrow();
+    });
+
+});
+
+describe('getLoadingRoute', () => {
+
+    it('returns correct loading route', async () => {
+        const router = createRouter<TestRoutes>();
+        const lazyRoute = createLazyRoute();
+        router.registerRoute(lazyRoute);
+        const promise = router.openRouteByName('lazy');
+        const route = router.getLoadingRoute();
+        expect(route).not.toBeNull();
+        expect(route?.name).toEqual('lazy');
+        await promise;
+    });
+
+    it('returns null if there is no loading route', async () => {
+        const router = createRouter<TestRoutes>();
+        const lazyRoute = createLazyRoute();
+        router.registerRoute(lazyRoute);
+        const route = router.getLoadingRoute();
+        expect(route).toBeNull();
     });
 
 });
@@ -201,6 +237,7 @@ describe('openRouteByPath', () => {
         const route = await router.openRouteByPath('/');
         expect(route?.name).toEqual('home');
         expect(route?.path).toEqual('/');
+        expect(route?.data).not.toBeNull();
     });
 
     it('opens correct route with parameters', async () => {
@@ -211,6 +248,7 @@ describe('openRouteByPath', () => {
         expect(route?.name).toEqual('post');
         expect(route?.path).toEqual('/post/10');
         expect(route?.params).toEqual({id: '10'});
+        expect(route?.data).not.toBeNull();
     });
 
     it('throws error if route is not found', async () => {
@@ -225,6 +263,17 @@ describe('openRouteByPath', () => {
         expect(homeRoute.handler).not.toBeCalled();
         await router.openRouteByPath('/');
         expect(homeRoute.handler).toBeCalled();
+    });
+
+    it('runs lazy handler', async () => {
+        const router = createRouter<TestRoutes>();
+        const lazyRoute = createLazyRoute();
+        router.registerRoute(lazyRoute);
+        if ('lazy' in lazyRoute.handler) {
+            expect(lazyRoute.handler.lazy).not.toBeCalled();
+            await router.openRouteByPath('/lazy');
+            expect(lazyRoute.handler.lazy).toBeCalled();
+        }
     });
 
     it('runs correct processor methods', async () => {
@@ -267,6 +316,8 @@ describe('openRouteByPath', () => {
         router.registerRoute(homeRoute);
         router.registerProcessor(mockProcessor);
         await expect(router.openRouteByPath('/')).rejects.toThrow();
+        expect(mockProcessor.onOpenRouteEnd).toBeCalled();
+        expect(mockProcessor.onOpenRouteSuccess).not.toBeCalled();
         expect(mockProcessor.onOpenRouteError).toBeCalled();
         expect(mockProcessor.onOpenRouteAbort).not.toBeCalled();
     });
@@ -282,6 +333,7 @@ describe('openRouteByName', () => {
         const route = await router.openRouteByName('home');
         expect(route?.name).toEqual('home');
         expect(route?.path).toEqual('/');
+        expect(route?.data).not.toBeNull();
     });
 
     it('opens correct route with parameters', async () => {
@@ -292,6 +344,7 @@ describe('openRouteByName', () => {
         expect(route?.name).toEqual('post');
         expect(route?.path).toEqual('/post/10');
         expect(route?.params).toEqual({id: '10'});
+        expect(route?.data).not.toBeNull();
     });
 
     it('throws error if route is not found', async () => {
@@ -313,6 +366,17 @@ describe('openRouteByName', () => {
         expect(homeRoute.handler).not.toBeCalled();
         await router.openRouteByName('home');
         expect(homeRoute.handler).toBeCalled();
+    });
+
+    it('runs lazy handler', async () => {
+        const router = createRouter<TestRoutes>();
+        const lazyRoute = createLazyRoute();
+        router.registerRoute(lazyRoute);
+        if ('lazy' in lazyRoute.handler) {
+            expect(lazyRoute.handler.lazy).not.toBeCalled();
+            await router.openRouteByName('lazy');
+            expect(lazyRoute.handler.lazy).toBeCalled();
+        }
     });
 
     it('runs correct processor methods', async () => {
@@ -355,6 +419,10 @@ describe('openRouteByName', () => {
         router.registerRoute(homeRoute);
         router.registerProcessor(mockProcessor);
         await expect(router.openRouteByName('home')).rejects.toThrow();
+        expect(mockProcessor.onOpenRouteError).toBeCalled();
+        expect(mockProcessor.onOpenRouteAbort).not.toBeCalled();
+        expect(mockProcessor.onOpenRouteEnd).toBeCalled();
+        expect(mockProcessor.onOpenRouteSuccess).not.toBeCalled();
         expect(mockProcessor.onOpenRouteError).toBeCalled();
         expect(mockProcessor.onOpenRouteAbort).not.toBeCalled();
     });
