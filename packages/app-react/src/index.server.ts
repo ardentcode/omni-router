@@ -2,6 +2,7 @@ import express, {Request, Response} from 'express';
 import {createAppRouter, renderPageTemplate} from './common';
 import {renderErrorModalTemplate} from './common/error-modal-template';
 import {APP_PORT, PUBLIC_PATH} from './server';
+import {renderToString} from 'react-dom/server';
 
 function main() {
     const app = express();
@@ -27,14 +28,14 @@ function main() {
             response.send(renderPageTemplate({
                 router,
                 title: route.data.meta?.title,
-                content: route.data.html?.content,
-                info: route.data.html?.fragments?.info
+                content: route.data.component ? renderToString(route.data.component) : '',
+                info: route.data.fragments?.info
             }));
         } catch (error) {
             response.send(renderPageTemplate({
                 router,
                 title: 'Error',
-                content: renderErrorModalTemplate({error})
+                content: renderToString(renderErrorModalTemplate({error}))
             }));
         }
     });

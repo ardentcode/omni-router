@@ -1,8 +1,10 @@
 import {Router} from 'ui-router';
 import {createErrorRouteProcessor, createLoadingIndicatorRouteProcessor} from './client';
-import {APP_ID, AppRouteData, AppRoutes, createAppRouter} from './common';
+import {AppRouteData, AppRoutes, createAppRouter, INFO_ID} from './common';
 import './common/page-template';
 import './common/reset.css';
+import {getReactRoot} from './client/getReactRoot';
+import {createReactRouteProcessor} from './client/react-route-processor';
 
 declare global {
     interface Window {
@@ -12,7 +14,15 @@ declare global {
 
 async function main() {
     const router = createAppRouter();
-    router.registerProcessor(createErrorRouteProcessor({rootId: APP_ID}));
+
+    const reactRoot = getReactRoot();
+    router.registerProcessor(createErrorRouteProcessor({reactRoot}));
+    router.registerProcessor(createReactRouteProcessor({
+        reactRoot,
+        fragmentsIds: {
+            info: INFO_ID
+        }
+    }));
     router.registerProcessor(createLoadingIndicatorRouteProcessor());
     window.router = router;
     await router.openRouteByPath(window.location.pathname + window.location.search);

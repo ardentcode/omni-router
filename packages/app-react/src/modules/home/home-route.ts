@@ -1,18 +1,17 @@
-import {HTMLRouteData, RouteHandler, RouteInfo} from 'ui-router';
+import {RouteHandler, RouteInfo} from 'ui-router';
 import {renderHomeTemplate} from './home-template';
+import {ReactRouteData} from '../../common/react-route-data';
 
 export interface HomeRouteParams {
 
 }
 
-export function createHomeRouteHandler(): RouteHandler<HomeRouteParams, HTMLRouteData> {
+export function createHomeRouteHandler(): RouteHandler<HomeRouteParams, ReactRouteData> {
     return ({}: HomeRouteParams, {}: RouteInfo) => {
         return {
-            html: {
-                content: renderHomeTemplate(),
-                fragments: {
-                    info: '!'
-                }
+            component: renderHomeTemplate(),
+            fragments: {
+                info: '!'
             },
             meta: {
                 title: `Home`

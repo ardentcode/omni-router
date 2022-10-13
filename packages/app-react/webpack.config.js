@@ -8,7 +8,7 @@ module.exports = (env, {mode}) => {
         stats: 'minimal',
         devtool: mode === 'development' ? 'eval-source-map' : false,
         resolve: {
-            extensions: ['.ts', '.js']
+            extensions: ['.tsx', '.ts', '.js']
         },
         output: {
             path: path.join(__dirname, 'dist'),

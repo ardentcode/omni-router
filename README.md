@@ -25,3 +25,13 @@ Please go to `/packages/app-html` and use:
 
 Then for starting application you can use `npm run start` and open application under http://localhost:3000  
 For development you can also use `npm run watch`
+
+## Building and starting React web application
+
+Please go to `/packages/app-react` and use:
+
+- `npm install` or `npm i`
+- `npm run build`
+
+Then for starting application you can use `npm run start` and open application under http://localhost:3001  
+For development you can also use `npm run watch`
