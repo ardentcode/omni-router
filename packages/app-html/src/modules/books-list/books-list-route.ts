@@ -1,10 +1,11 @@
-import {HTMLRouteData, RouteHandler} from 'ui-router';
-import {renderBookListTemplate} from './books-list-template';
-import {LoadingIndicator} from '../../common/loading-indicator';
 import {default as axios} from 'axios';
+import {HTMLRouteData, RouteHandler} from 'ui-router';
+import {LoadingIndicator} from '../../common/loading-indicator';
+import {renderBookListTemplate} from './books-list-template';
 
 export interface BookListRouteParams {
     limit: number;
+    delay_sec: number;
 }
 
 export interface BookListRouteDeps {
@@ -27,9 +28,15 @@ export function createBookListRouteHandler({loadingIndicator}: BookListRouteDeps
             console.log('fetch error: ' + e.message);
         }
 
+        if(params.delay_sec != null) {
+            await new Promise(resolve => setTimeout(resolve, params.delay_sec * 1000));
+        }
+
         loadingIndicator?.hide();
         return {
-            htmlText: renderBookListTemplate(books.slice(params.limit - 1)),
+            html: {
+                content: renderBookListTemplate(books.slice(0, params.limit))
+            },
             meta: {
                 title: `Books list`,
                 author: 'author of page'

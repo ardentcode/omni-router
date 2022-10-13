@@ -8,7 +8,9 @@ export interface HomeRouteParams {
 export function createHomeRouteHandler(): RouteHandler<HomeRouteParams, HTMLRouteData> {
     return (params: HomeRouteParams) => {
         return {
-            htmlText: renderHomeTemplate(params),
+            html: {
+                content: renderHomeTemplate(params)
+            },
             meta: {
                 title: `Home`
             }

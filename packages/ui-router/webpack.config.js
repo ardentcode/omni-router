@@ -4,7 +4,6 @@ module.exports = () => {
         stats: 'minimal',
         devtool: 'eval-source-map',
         entry: './src/index.ts',
-
         output: {
             filename: 'index.js',
             library: {
@@ -13,11 +12,9 @@ module.exports = () => {
                 umdNamedDefine: true
             }
         },
-
         resolve: {
             extensions: ['.ts', '.js']
         },
-
         module: {
             rules: [
                 {

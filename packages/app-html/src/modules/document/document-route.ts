@@ -1,9 +1,10 @@
 import {HTMLRouteData, RedirectRouteData, RouteHandler} from 'ui-router';
-import {renderDocumentTemplate} from './document-template';
 import {LoadingIndicator} from '../../common/loading-indicator';
+import {renderDocumentTemplate} from './document-template';
 
 export interface DocumentRouteParams {
     id: string;
+    delay_sec: number;
 }
 
 export interface DocumentRouteDeps {
@@ -15,13 +16,19 @@ export function createDocumentRouteHandler({loadingIndicator}: DocumentRouteDeps
         loadingIndicator?.show();
         if (params.id.startsWith('0')) {
             return {
-                redirect: `/document/${parseInt(params.id)}`
+                redirect: {
+                    path: `/document/${parseInt(params.id)}`
+                }
             };
         }
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        if(params.delay_sec != null) {
+            await new Promise(resolve => setTimeout(resolve, params.delay_sec * 1000));
+        }
         loadingIndicator?.hide();
         return {
-            htmlText: renderDocumentTemplate(params),
+            html: {
+                content: renderDocumentTemplate(params)
+            },
             meta: {
                 title: `Document #${params.id}`,
                 author: 'Author of document',
