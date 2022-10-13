@@ -7,6 +7,7 @@ export function createLoadingIndicatorRouteProcessor(): RouteProcessor {
 
     const onOpenRouteStart = ({router}: OpenRouteStartEvent): void => {
         if (!isInitialRender(router)) {
+            element?.remove();
             element = createElement();
         }
     };
