@@ -1,9 +1,9 @@
-import {RouteProcessor} from '../../types';
+import {RouteProcessor} from '../../core';
 import {RedirectRouteData} from './redirect-route-data';
 
 export function createRedirectRouteProcessor<M = any>(): RouteProcessor<RedirectRouteData<M>> {
     return {
-        async onOpenRouteRedirect({router, route}): Promise<void> {
+        async onOpenRouteSuccess({router, route}): Promise<void> {
             if (typeof window === 'undefined' || !route.data.redirect) {
                 return;
             }

@@ -1,0 +1,30 @@
+.loading-indicator {
+    display: none;
+    height: 80px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    width: 80px;
+}
+
+.loading-indicator:after {
+    animation: loading-indicator 1s linear infinite;
+    border-color: #000 transparent #000 transparent;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 4px;
+    content: " ";
+    display: block;
+    height: 64px;
+    margin: 8px;
+    width: 64px;
+}
+
+@keyframes loading-indicator {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

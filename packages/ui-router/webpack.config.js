@@ -1,11 +1,8 @@
-module.exports = () => {
-
+module.exports = (env, {mode}) => {
     const commonConfig = {
         stats: 'minimal',
-        devtool: 'eval-source-map',
-        entry: './src/index.ts',
+        devtool: mode === 'development' ? 'eval-source-map' : false,
         output: {
-            filename: 'index.js',
             library: {
                 name: 'UIRouter',
                 type: 'umd',
@@ -22,7 +19,7 @@ module.exports = () => {
                     exclude: /node_modules/,
                     use: [
                         {
-                            loader: 'ts-loader',
+                            loader: 'ts-loader'
                         }
                     ]
                 }
@@ -32,20 +29,30 @@ module.exports = () => {
 
     const clientConfig = {
         ...commonConfig,
+        name: 'client',
         target: 'web',
+        entry: './src/index.ts',
         output: {
             ...commonConfig.output,
             filename: 'index.client.js'
-        }
+        },
+        resolve: {
+            extensions: ['.client.ts', ...commonConfig.resolve.extensions]
+        },
     };
 
     const serverConfig = {
         ...commonConfig,
+        name: 'server',
         target: 'node',
+        entry: './src/index.ts',
         output: {
             ...commonConfig.output,
             filename: 'index.server.js'
-        }
+        },
+        resolve: {
+            extensions: ['.server.ts', ...commonConfig.resolve.extensions]
+        },
     };
 
     return [clientConfig, serverConfig];

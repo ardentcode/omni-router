@@ -1,20 +1,14 @@
 import express, {Request, Response} from 'express';
-import {createRouter} from 'ui-router';
-import {initAppRouter, ROOT_ID} from './common';
-import {APP_PORT, createHTMLRenderer, htmlTemplate, PUBLIC_PATH} from './server';
+import {createAppRouter, renderPageTemplate} from './common';
+import {APP_PORT, PUBLIC_PATH} from './server';
 
 function main() {
     const app = express();
-    const htmlRenderer = createHTMLRenderer({
-        commonData: {
-            ROOT_ID
-        }
-    });
 
     app.use(express.static(PUBLIC_PATH));
 
     app.get('*', async (request: Request, response: Response) => {
-        const router = initAppRouter(createRouter());
+        const router = createAppRouter();
         const route = await router.openRouteByPath(request.path, request.query);
         if (route.data.redirect) {
             let redirectPath: string | undefined;
@@ -28,11 +22,13 @@ function main() {
                 return;
             }
         }
-        const content = htmlRenderer.renderHTML(htmlTemplate, {
-            TITLE: route.data.meta?.title ?? '',
-            CONTENT: route.data.html?.content ?? ''
+        const html = renderPageTemplate({
+            router,
+            title: route.data.meta?.title,
+            content: route.data.html?.content,
+            info: route.data.html?.fragments?.info
         });
-        response.send(content);
+        response.send(html);
     });
 
     app.listen(APP_PORT, () => {

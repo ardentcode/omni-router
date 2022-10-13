@@ -1,1 +1,0 @@
-export type RouteName<M = any> = keyof M & string;

@@ -1,4 +1,4 @@
-import {RouteProcessor} from '../../types';
+import {RouteProcessor} from '../../core';
 import {MetaRouteData} from './meta-route-data';
 
 interface MetaRouteProcessorOptions {

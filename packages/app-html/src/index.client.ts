@@ -1,14 +1,20 @@
-import './style.css';
-import {createClientRouter} from 'ui-router';
-import {initAppRouter} from './common';
-import {LoadingIndicator} from './common/loading-indicator';
+import {Router} from 'ui-router';
+import {createLoadingIndicatorRouteProcessor} from './client';
+import {AppRouteData, AppRoutes, createAppRouter} from './common';
+import './common/page-template';
+import './common/reset.css';
+
+declare global {
+    interface Window {
+        router: Router<AppRoutes, AppRouteData>;
+    }
+}
 
 async function main() {
-    const loadingIndicator = new LoadingIndicator();
-    const router = initAppRouter(createClientRouter(), loadingIndicator);
+    const router = createAppRouter();
+    router.registerProcessor(createLoadingIndicatorRouteProcessor());
+    window.router = router;
     await router.openRouteByPath(window.location.pathname + window.location.search);
-    // @ts-ignore
-    window.router = router; // for debugging purpose - to be removed?
 }
 
 main();

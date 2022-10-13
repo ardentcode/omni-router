@@ -1,5 +1,4 @@
 import './polyfills';
 
+export * from './core';
 export * from './processors';
-export * from './router';
-export * from './types';
