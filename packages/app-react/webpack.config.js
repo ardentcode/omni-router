@@ -42,7 +42,7 @@ module.exports = (env, {mode}) => {
         ...commonConfig,
         name: 'client',
         target: 'web',
-        entry: './src/index.client.ts',
+        entry: './src/index.client.tsx',
         output: {
             ...commonConfig.output,
             path: `${commonConfig.output.path}/public`
@@ -73,7 +73,7 @@ module.exports = (env, {mode}) => {
         ...commonConfig,
         name: 'server',
         target: 'node',
-        entry: './src/index.server.ts',
+        entry: './src/index.server.tsx',
         externals: [
             nodeExternals()
         ],

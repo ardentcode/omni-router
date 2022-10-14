@@ -2,7 +2,7 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "declaration": false,
-        "jsx": "react"
+        "jsx": "react-jsx"
     },
     "include": [
         "declarations.d.ts",

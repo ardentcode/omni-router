@@ -1,15 +1,10 @@
-import React from 'react';
 import './error-modal-template.css';
 
-export interface ErrorModalTemplateOptions {
+export interface ErrorModalTemplateProps {
     error: Error;
 }
 
-export function renderErrorModalTemplate({error}: ErrorModalTemplateOptions): JSX.Element {
-    return <ErrorModalTemplate error={error}/>;
-}
-
-function ErrorModalTemplate({error}: ErrorModalTemplateOptions): JSX.Element {
+export function ErrorModalTemplate({error}: ErrorModalTemplateProps): JSX.Element {
     return (
         <div>
             <h1>

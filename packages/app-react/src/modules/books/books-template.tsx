@@ -1,4 +1,3 @@
-import React from 'react'
 import {Router} from 'ui-router';
 import {Book} from './book';
 import {BooksRoutes} from './books-routes';
@@ -10,7 +9,7 @@ export interface BooksTemplateProps {
 
 export function BooksTemplate({books, router}: BooksTemplateProps): JSX.Element {
     const bookItems = books.map(book => (
-        <li key={book.id} >
+        <li key={book.id}>
             <a href={router.getRouteByName('book', {id: book.id}).path}>
                 {book.title}
             </a>
@@ -22,12 +21,12 @@ export function BooksTemplate({books, router}: BooksTemplateProps): JSX.Element 
             <h1>&#128216; Books</h1>
             <ul>
                 {bookItems}
-                <li key='not-existing-book' >
+                <li key="not-existing-book">
                     <a href={router.getRouteByName('book', {id: '0'}).path}>
                         Not Existing Book
                     </a>
                 </li>
             </ul>
         </div>
-    )
+    );
 }

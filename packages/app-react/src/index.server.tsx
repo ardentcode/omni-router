@@ -1,6 +1,6 @@
 import express, {Request, Response} from 'express';
 import {createAppRouter, renderHtml} from './common';
-import {renderErrorModalTemplate} from './common/error-modal-template';
+import {ErrorModalTemplate} from './common/error-modal-template';
 import {APP_PORT, PUBLIC_PATH} from './server';
 
 function main() {
@@ -33,7 +33,7 @@ function main() {
             response.send(renderHtml({
                 router,
                 title: 'Error',
-                content: renderErrorModalTemplate({error})
+                content: <ErrorModalTemplate error={error}/>
             }));
         }
     });

@@ -1,4 +1,3 @@
-import React from 'react';
 import {Router} from 'ui-router';
 import {AppRoutes} from './app-router';
 import {APP_ID} from './config';

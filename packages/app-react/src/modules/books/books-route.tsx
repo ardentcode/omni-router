@@ -17,7 +17,7 @@ export function createBooksRouteHandler({
     return async ({limit = 10}: BooksRouteParams, {router, signal}: RouteInfo) => {
         const books = await bookApi.getBooks({limit, signal});
         return {
-            component: BooksTemplate({books, router}),
+            component: <BooksTemplate books={books} router={router}/>,
             meta: {
                 title: `Books`
             }
