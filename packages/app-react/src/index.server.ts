@@ -1,8 +1,7 @@
 import express, {Request, Response} from 'express';
-import {createAppRouter, renderPageTemplate} from './common';
+import {createAppRouter, renderHtml} from './common';
 import {renderErrorModalTemplate} from './common/error-modal-template';
 import {APP_PORT, PUBLIC_PATH} from './server';
-import {renderToString} from 'react-dom/server';
 
 function main() {
     const app = express();
@@ -25,17 +24,16 @@ function main() {
                     return;
                 }
             }
-            response.send(renderPageTemplate({
+            response.send(renderHtml({
                 router,
                 title: route.data.meta?.title,
-                content: route.data.component ? renderToString(route.data.component) : '',
-                info: route.data.fragments?.info
+                content: route.data.component
             }));
         } catch (error) {
-            response.send(renderPageTemplate({
+            response.send(renderHtml({
                 router,
                 title: 'Error',
-                content: renderToString(renderErrorModalTemplate({error}))
+                content: renderErrorModalTemplate({error})
             }));
         }
     });

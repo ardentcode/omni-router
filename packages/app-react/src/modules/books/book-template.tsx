@@ -1,14 +1,15 @@
-import React from 'react'
-import {Router} from 'ui-router';
+import React from 'react';
 import {Book} from './book';
-import {BooksRoutes} from './books-routes';
 
-export interface BookTemplateOptions {
-    router: Router<BooksRoutes>;
+export interface BookTemplateProps {
     book: Book;
 }
 
-export function renderBookTemplate({book}: BookTemplateOptions): JSX.Element {
+export function renderBookTemplate({book}: BookTemplateProps): JSX.Element {
+    return <BookTemplate book={book}/>;
+}
+
+function BookTemplate({book}: BookTemplateProps): JSX.Element {
     return (
         <div>
             <h1>&#128214; {book.title}</h1>

@@ -3,12 +3,12 @@ import {Router} from 'ui-router';
 import {Book} from './book';
 import {BooksRoutes} from './books-routes';
 
-export interface BooksTemplateOptions {
+export interface BooksTemplateProps {
     router: Router<BooksRoutes>;
     books: Book[];
 }
 
-export function renderBooksTemplate({books, router}: BooksTemplateOptions): JSX.Element {
+export function BooksTemplate({books, router}: BooksTemplateProps): JSX.Element {
     const bookItems = books.map(book => (
         <li key={book.id} >
             <a href={router.getRouteByName('book', {id: book.id}).path}>

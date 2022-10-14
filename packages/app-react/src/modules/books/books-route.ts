@@ -1,6 +1,6 @@
 import {RouteHandler, RouteInfo} from 'ui-router';
 import {BookApi, createBookApi} from './book-api';
-import {renderBooksTemplate} from './books-template';
+import {BooksTemplate} from './books-template';
 import {ReactRouteData} from '../../common/react-route-data';
 
 export interface BooksRouteParams {
@@ -17,7 +17,7 @@ export function createBooksRouteHandler({
     return async ({limit = 10}: BooksRouteParams, {router, signal}: RouteInfo) => {
         const books = await bookApi.getBooks({limit, signal});
         return {
-            component: renderBooksTemplate({books, router}),
+            component: BooksTemplate({books, router}),
             meta: {
                 title: `Books`
             }

@@ -6,6 +6,10 @@ export interface ErrorModalTemplateOptions {
 }
 
 export function renderErrorModalTemplate({error}: ErrorModalTemplateOptions): JSX.Element {
+    return <ErrorModalTemplate error={error}/>;
+}
+
+function ErrorModalTemplate({error}: ErrorModalTemplateOptions): JSX.Element {
     return (
         <div>
             <h1>
@@ -15,5 +19,5 @@ export function renderErrorModalTemplate({error}: ErrorModalTemplateOptions): JS
                 {error.message}
             </p>
         </div>
-    )
+    );
 }

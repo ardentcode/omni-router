@@ -1,10 +1,9 @@
-import React from "react";
+import React from 'react';
 
-export interface NotFoundTemplateParams {
-
+export interface NotFoundTemplateProps {
 }
 
-export function renderNotFoundTemplate({}: NotFoundTemplateParams): JSX.Element {
+export function renderNotFoundTemplate({}: NotFoundTemplateProps): JSX.Element {
     return (
         <div>
             404 Not Found
