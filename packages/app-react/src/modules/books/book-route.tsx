@@ -1,7 +1,7 @@
 import {RedirectRouteData, RouteHandler, RouteInfo} from 'ui-router';
 import {BookApi, createBookApi} from './book-api';
 import {BookTemplate} from './book-template';
-import {ReactRouteData} from '../../common/react-route-data';
+import {ReactRouteData} from '../../common';
 
 export interface BookRouteParams {
     id: string;

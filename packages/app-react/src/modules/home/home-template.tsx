@@ -1,7 +1,7 @@
-export interface HomeTemplateParams {
+export interface HomeTemplateProps {
 }
 
-export function HomeTemplate({}: HomeTemplateParams = {}): JSX.Element {
+export function HomeTemplate({}: HomeTemplateProps = {}): JSX.Element {
     return (
         <div>
             <h1>    &#127968; Home</h1>

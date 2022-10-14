@@ -1,7 +1,7 @@
 import {RouteHandler, RouteInfo} from 'ui-router';
 import {BookApi, createBookApi} from './book-api';
 import {BooksTemplate} from './books-template';
-import {ReactRouteData} from '../../common/react-route-data';
+import {ReactRouteData} from '../../common';
 
 export interface BooksRouteParams {
     limit?: number;

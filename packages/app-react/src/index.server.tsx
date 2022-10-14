@@ -1,6 +1,5 @@
 import express, {Request, Response} from 'express';
-import {createAppRouter, renderHtml} from './common';
-import {ErrorModalTemplate} from './common/error-modal-template';
+import {createAppRouter, ErrorModalTemplate, renderHtml} from './common';
 import {APP_PORT, PUBLIC_PATH} from './server';
 
 function main() {

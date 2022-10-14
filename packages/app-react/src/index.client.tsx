@@ -1,11 +1,9 @@
 import {Router} from 'ui-router';
-import {createLoadingIndicatorRouteProcessor} from './client';
-import {APP_ID, AppRouteData, AppRoutes, createAppRouter} from './common';
+import {createLoadingIndicatorRouteProcessor, createReactRouteProcessor} from './client';
+import {APP_ID, AppRouteData, AppRoutes, createAppRouter, ErrorModalTemplate} from './common';
 import './common/render-html';
 import './common/reset.css';
-import {createReactRouteProcessor} from './client/react-route-processor';
 import {createRoot} from 'react-dom/client';
-import {ErrorModalTemplate} from './common/error-modal-template';
 
 declare global {
     interface Window {

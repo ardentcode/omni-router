@@ -5,13 +5,13 @@ import {HeaderTemplate} from './header-template';
 import './page-template.css';
 import {renderToString} from 'react-dom/server';
 
-export interface PageTemplateOptions {
+export interface RenderHtmlOptions {
     router: Router<AppRoutes>;
     title?: string;
     content?: JSX.Element;
 }
 
-export function renderHtml({router, title, content}: PageTemplateOptions): string {
+export function renderHtml({router, title, content}: RenderHtmlOptions): string {
     const html = (
         <html lang="en">
         <head>

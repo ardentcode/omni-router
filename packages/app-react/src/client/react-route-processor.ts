@@ -1,7 +1,6 @@
 import {Root} from 'react-dom/client';
-import {RouteProcessor} from 'ui-router';
-import {ReactRouteData} from '../common/react-route-data';
-import {OpenRouteErrorEvent} from 'ui-router/src';
+import {OpenRouteErrorEvent, RouteProcessor} from 'ui-router';
+import {ReactRouteData} from '../common';
 
 export interface ReactRouteProcessorOptions {
     reactRoot: Root;
