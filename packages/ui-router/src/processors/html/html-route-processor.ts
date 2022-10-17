@@ -1,4 +1,4 @@
-import {RouteProcessor} from '../../types';
+import {RouteProcessor} from '../../core';
 import {HTMLRouteData} from './html-route-data';
 
 interface HTMLRouteProcessorOptions {
@@ -8,7 +8,7 @@ interface HTMLRouteProcessorOptions {
 
 export function createHTMLRouteProcessor({rootId, fragmentsIds}: HTMLRouteProcessorOptions): RouteProcessor<HTMLRouteData> {
     return {
-        async onOpenRouteEnd({route}): Promise<void> {
+        async onOpenRouteSuccess({route}): Promise<void> {
             if (typeof document === 'undefined') {
                 return;
             }
@@ -20,13 +20,12 @@ export function createHTMLRouteProcessor({rootId, fragmentsIds}: HTMLRouteProces
                 throw new Error(`Root element #${rootId} was not found`);
             }
             rootElement.innerHTML = route.data.html.content;
-            Object.entries(route.data.html.fragments ?? {}).forEach(([key, content]) => {
-                const fragmentId = fragmentsIds?.[key] ?? key;
+            Object.entries(fragmentsIds ?? {}).forEach(([fragmentName, fragmentId]) => {
                 const fragmentElement = document.getElementById(fragmentId);
                 if (!fragmentElement) {
                     throw new Error(`Fragment element #${fragmentId} was not found`);
                 }
-                fragmentElement.innerHTML = content;
+                fragmentElement.innerHTML = route.data.html?.fragments?.[fragmentName] ?? '';
             });
         }
     };

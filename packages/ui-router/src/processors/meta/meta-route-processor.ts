@@ -1,4 +1,4 @@
-import {RouteProcessor} from '../../types';
+import {RouteProcessor} from '../../core';
 import {MetaRouteData} from './meta-route-data';
 
 interface MetaRouteProcessorOptions {
@@ -7,7 +7,7 @@ interface MetaRouteProcessorOptions {
 
 export function createMetaRouteProcessor({}: MetaRouteProcessorOptions = {}): RouteProcessor<MetaRouteData> {
     return {
-        async onOpenRouteEnd({route}): Promise<void> {
+        async onOpenRouteSuccess({route}): Promise<void> {
             if (typeof document === 'undefined') {
                 return;
             }

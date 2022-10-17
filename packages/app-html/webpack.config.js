@@ -1,34 +1,40 @@
 const nodeExternals = require('webpack-node-externals');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
 
-module.exports = () => {
-
-    const commonRules = [
-        {
-            test: /\.tsx?$/,
-            exclude: /node_modules/,
-            use: [
-                {
-                    loader: 'ts-loader',
-                }
-            ]
-        },
-        {
-            test: /\.html?$/,
-            exclude: /node_modules/,
-            use: [
-                {
-                    loader: 'raw-loader'
-                }
-            ]
-        }
-    ]
+module.exports = (env, {mode}) => {
 
     const commonConfig = {
         stats: 'minimal',
-        devtool: 'source-map',
+        devtool: mode === 'development' ? 'eval-source-map' : false,
         resolve: {
             extensions: ['.ts', '.js']
+        },
+        output: {
+            path: path.join(__dirname, 'dist'),
+            filename: 'index.js'
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {
+                            loader: 'ts-loader'
+                        }
+                    ]
+                },
+                {
+                    test: /\.html?$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {
+                            loader: 'raw-loader'
+                        }
+                    ]
+                }
+            ]
         }
     };
 
@@ -38,21 +44,29 @@ module.exports = () => {
         target: 'web',
         entry: './src/index.client.ts',
         output: {
-            filename: 'public/index.js'
+            ...commonConfig.output,
+            path: `${commonConfig.output.path}/public`
         },
-        plugins: [new MiniCssExtractPlugin({
-            filename: "public/style.css"
-        })],
         module: {
             rules: [
-                ...commonRules,
+                ...commonConfig.module.rules,
                 {
                     test: /\.css$/,
-                    use: [MiniCssExtractPlugin.loader, "css-loader"],
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader
+                        }, {
+                            loader: 'css-loader'
+                        }
+                    ],
                 }
-
             ]
-        }
+        },
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: 'index.css'
+            })
+        ]
     };
 
     const serverConfig = {
@@ -60,14 +74,21 @@ module.exports = () => {
         name: 'server',
         target: 'node',
         entry: './src/index.server.ts',
-        output: {
-            filename: 'index.js'
-        },
         externals: [
             nodeExternals()
         ],
         module: {
-            rules: commonRules
+            rules: [
+                ...commonConfig.module.rules,
+                {
+                    test: /\.css$/,
+                    use: [
+                        {
+                            loader: 'null-loader'
+                        }
+                    ],
+                }
+            ]
         }
     };
 

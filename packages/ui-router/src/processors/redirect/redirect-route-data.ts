@@ -1,6 +1,4 @@
-import {RouteName} from '../../types';
-
-export interface RedirectRouteData<M = any, N extends RouteName<M> = RouteName<M>> {
+export interface RedirectRouteData<M = any, N extends keyof M & string = keyof M & string> {
     redirect: {
         path?: string;
         name?: void;
