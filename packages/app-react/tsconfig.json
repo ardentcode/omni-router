@@ -1,0 +1,16 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "declaration": false,
+        "jsx": "react-jsx"
+    },
+    "include": [
+        "declarations.d.ts",
+        "navigation-api.d.ts",
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "src/**/*.spec.ts"
+    ]
+}

@@ -1,0 +1,38 @@
+body {
+    background: #eee;
+    font-family: sans-serif;
+}
+
+main {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    line-height: 1.5;
+    margin: 50px auto;
+    max-width: 800px;
+    padding: 20px;
+    width: auto;
+}
+
+@media screen and (max-width: 840px) {
+    main {
+        margin: 50px 20px;
+    }
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+dt {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+h1 {
+    margin-bottom: 20px !important;
+}
