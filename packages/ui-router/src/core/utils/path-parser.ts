@@ -40,7 +40,7 @@ export function createPathParser({}: PathParserOptions = {}): PathParser {
         }
         return {
             ...urlMatch.pathname.groups,
-            ...Object.fromEntries(new URLSearchParams(urlMatch.search.input))
+            ...Object.fromEntries(new URLSearchParams(urlMatch.search.input) as any)
         } as P;
     };
 

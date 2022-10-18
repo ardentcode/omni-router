@@ -62,7 +62,7 @@ describe('extractParamsFromPath', () => {
 
 describe('buildPathWithParams', () => {
 
-    it('returns same path in no parameters are provided', () => {
+    it('returns same path if no parameters are provided', () => {
         const pathParser = createPathParser();
         const pathWithNoParams = pathParser.buildPathWithParams('/', {});
         expect(pathWithNoParams).toEqual('/');
