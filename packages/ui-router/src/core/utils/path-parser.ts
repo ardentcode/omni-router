@@ -1,4 +1,4 @@
-import {ParamsMissingError} from '../errors';
+import {ParamsMissingError, PathNotMatchingError} from '../errors';
 
 export interface PathParser {
     extractParamsNames: <N extends string = string>(pattern: string) => N[];
@@ -32,13 +32,19 @@ export function createPathParser({}: PathParserOptions = {}): PathParser {
         const urlPattern = new URLPattern({pathname: pattern});
         const [pathname, search] = path.split('?');
         const urlMatch = urlPattern.exec({pathname, search});
-        return urlMatch ? {
+        if (!urlMatch) {
+            throw new PathNotMatchingError(`Path "${path}" does not match the pattern ${pattern}`, {
+                pattern,
+                path
+            });
+        }
+        return {
             ...urlMatch.pathname.groups,
             ...Object.fromEntries(new URLSearchParams(urlMatch.search.input))
-        } as P : {} as P;
+        } as P;
     };
 
-    const buildPathWithParams = <P = unknown>(path: string, params: P = {} as P): string => {
+    const buildPathWithParams = <P = unknown>(path: string, params: P): string => {
         const pathWithParams = Object.entries(params as {}).reduce((path: string, [name, value]: [string, string]): string => {
             if (path.includes('*') && !isNaN(parseInt(name))) {
                 return path.replace('*', value);

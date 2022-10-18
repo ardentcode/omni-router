@@ -1,16 +1,12 @@
 import {Route} from '../route';
-// @ts-ignore
-import {createRouter as createBaseRouter, OpenRouteOptions, Router, RouterOptions} from './router.ts';
-
-export interface ClientRouterOptions extends RouterOptions {
-
-}
+import {OpenRouteOptions, Router, RouterOptions} from './router';
+import {createBaseRouter} from './router.base';
 
 const NAVIGATION_FROM_ROUTER = Symbol('Navigation From Router');
 
-export function createRouter<M = any, D = any>({...options}: ClientRouterOptions = {}): Router<M, D> {
+export function createRouter<M = any, D = any>(options: RouterOptions = {}): Router<M, D> {
 
-    const router = createBaseRouter<M>(options);
+    const router = createBaseRouter<M, D>(options);
     const originalOpenRouteByPath = router.openRouteByPath;
     const originalOpenRouteByName = router.openRouteByName;
 
@@ -22,19 +18,19 @@ export function createRouter<M = any, D = any>({...options}: ClientRouterOptions
     };
 
     router.openRouteByPath = async <N extends keyof M & string>(path: string, params: M[N] = {} as M[N], options: OpenRouteOptions = {}): Promise<Route<M[N], D>> => {
-        const route = await originalOpenRouteByPath(path);
+        const route = await originalOpenRouteByPath<N>(path);
         if (route) {
             navigateToPath(route.path, options);
         }
-        return route as Route<M[N], D>;
+        return route;
     };
 
     router.openRouteByName = async <N extends keyof M & string>(name: N, params: M[N] = {} as M[N], options: OpenRouteOptions = {}): Promise<Route<M[N], D>> => {
-        const route = await originalOpenRouteByName(name, params);
+        const route = await originalOpenRouteByName<N>(name, params);
         if (route) {
             navigateToPath(route.path, options);
         }
-        return route as Route<M[N], D>;
+        return route;
     };
 
     window.navigation.addEventListener('navigate', async (event: NavigateEvent) => {

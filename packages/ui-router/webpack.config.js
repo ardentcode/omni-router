@@ -32,13 +32,13 @@ module.exports = (env, {mode}) => {
         name: 'client',
         target: 'web',
         entry: './src/index.ts',
-        output: {
-            ...commonConfig.output,
-            filename: 'index.client.js'
-        },
         resolve: {
             extensions: ['.client.ts', ...commonConfig.resolve.extensions]
         },
+        output: {
+            ...commonConfig.output,
+            filename: 'index.client.js'
+        }
     };
 
     const serverConfig = {
@@ -46,13 +46,13 @@ module.exports = (env, {mode}) => {
         name: 'server',
         target: 'node',
         entry: './src/index.ts',
-        output: {
-            ...commonConfig.output,
-            filename: 'index.server.js'
-        },
         resolve: {
             extensions: ['.server.ts', ...commonConfig.resolve.extensions]
         },
+        output: {
+            ...commonConfig.output,
+            filename: 'index.server.js'
+        }
     };
 
     return [clientConfig, serverConfig];
