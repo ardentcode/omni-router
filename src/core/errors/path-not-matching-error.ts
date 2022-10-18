@@ -1,4 +1,4 @@
-export const PATH_NOT_MATChING_ERROR_CODE = 'PATH_NOT_MATCHING';
+export const PATH_NOT_MATCHING_ERROR_CODE = 'PATH_NOT_MATCHING';
 
 export interface PathNotMatchingErrorDetails {
     pattern?: string;
@@ -7,7 +7,7 @@ export interface PathNotMatchingErrorDetails {
 
 export class PathNotMatchingError extends Error {
 
-    code = PATH_NOT_MATChING_ERROR_CODE;
+    code = PATH_NOT_MATCHING_ERROR_CODE;
 
     pattern: string;
 
