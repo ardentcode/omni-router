@@ -25,10 +25,8 @@
         ]
     },
     "include": [
+        "navigation-api.d.ts",
         "src/**/*"
-    ],
-    "files": [
-        "navigation-api.d.ts"
     ],
     "exclude": [
         "node_modules",
