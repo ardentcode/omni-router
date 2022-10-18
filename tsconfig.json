@@ -6,13 +6,13 @@
         "declaration": true,
         "downlevelIteration": true,
         "esModuleInterop": true,
-        "jsx": "react-jsx",
         "noImplicitAny": true,
         "strictNullChecks": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "module": "esnext",
         "moduleResolution": "node",
+        "outDir": "./dist/types",
         "skipLibCheck": true,
         "sourceMap": true,
         "target": "es6",
@@ -20,19 +20,18 @@
             "DOM",
             "ES2021"
         ],
-        "paths": {
-            "app-html": [
-                "./packages/app-html"
-            ],
-            "app-react": [
-                "./packages/app-react"
-            ],
-            "ui-router": [
-                "./packages/ui-router"
-            ]
-        },
         "types": [
             "jest"
         ]
-    }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "files": [
+        "navigation-api.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "src/**/*.spec.ts"
+    ]
 }
