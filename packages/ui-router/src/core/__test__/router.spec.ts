@@ -1,7 +1,6 @@
-import {describe, expect, it, jest} from '@jest/globals';
 import {HandlerNotFoundError, ParamsMissingError, RouteAbortedError, RouteNotFoundError} from '../errors';
 import {createRouter} from '../router';
-import {createLazyRouteDeclarationMock, createProcessorMock, createRouteDeclarationMock} from './utils';
+import {createLazyRouteDeclarationMock, createProcessorMock, createRouteDeclarationMock} from './mocks';
 
 describe('getRoutes', () => {
 

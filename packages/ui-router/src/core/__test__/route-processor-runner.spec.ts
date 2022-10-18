@@ -1,6 +1,5 @@
-import {describe, expect, it} from '@jest/globals';
 import {createRouteProcessorRunner} from '../utils';
-import {createProcessorMock} from './utils';
+import {createProcessorMock} from './mocks';
 
 describe('runOnGetRouteStart', () => {
 

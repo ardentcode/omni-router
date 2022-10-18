@@ -25,11 +25,14 @@
                 "./packages/app-html"
             ],
             "app-react": [
-              "./packages/app-react"
+                "./packages/app-react"
             ],
             "ui-router": [
                 "./packages/ui-router"
             ]
-        }
+        },
+        "types": [
+            "jest"
+        ]
     }
 }

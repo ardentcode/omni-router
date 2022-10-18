@@ -1,7 +1,6 @@
-import {describe, expect, it} from '@jest/globals';
 import {HandlerNotFoundError, PathNotMatchingError} from '../errors';
 import {createRouteFactory} from '../utils';
-import {createLazyRouteDeclarationMock, createRouteDeclarationMock} from './utils';
+import {createLazyRouteDeclarationMock, createRouteDeclarationMock} from './mocks';
 
 describe('createRoute', () => {
 

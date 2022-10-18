@@ -1,6 +1,5 @@
-import {describe, expect, it} from '@jest/globals';
 import {createRouteDeclarationRepository} from '../utils';
-import {createRouteDeclarationMock} from './utils';
+import {createRouteDeclarationMock} from './mocks';
 
 describe('getRouteDeclarations', () => {
 

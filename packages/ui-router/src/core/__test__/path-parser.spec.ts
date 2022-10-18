@@ -1,4 +1,3 @@
-import {describe, expect, it} from '@jest/globals';
 import {ParamsMissingError, PathNotMatchingError} from '../errors';
 import {createPathParser} from '../utils';
 
