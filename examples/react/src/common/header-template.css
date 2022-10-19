@@ -1,0 +1,27 @@
+.header {
+    align-items: center;
+    background: #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    font-weight: bold;
+    margin: 0 0 50px 0;
+    padding: 20px;
+}
+
+.logo {
+    font-size: 2rem;
+    margin-right: 100px;
+}
+
+.logo a:hover {
+    text-decoration: none;
+}
+
+.menu {
+    flex: 1;
+    font-size: 1rem;
+}
+
+.info {
+    
+}
