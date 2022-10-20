@@ -1,6 +1,6 @@
 import {GetRouteEndEvent, GetRouteStartEvent, OpenRouteAbortEvent, OpenRouteEndEvent, OpenRouteErrorEvent, OpenRouteStartEvent, OpenRouteSuccessEvent} from './route-processor-events';
 
-export interface RouteProcessor<D = any> {
+export interface RouteProcessor<D = unknown> {
     onGetRouteStart?: (event: GetRouteStartEvent) => void | Promise<void>;
     onGetRouteEnd?: (event: GetRouteEndEvent) => void | Promise<void>;
     onOpenRouteStart?: (event: OpenRouteStartEvent) => void | Promise<void>;

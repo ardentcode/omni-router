@@ -15,7 +15,7 @@ export interface RouteProcessorRunnerOptions {
 
 }
 
-export function createRouteProcessorRunner({}: RouteProcessorRunnerOptions = {}): RouteProcessorRunner {
+export function createRouteProcessorRunner<D = unknown>({}: RouteProcessorRunnerOptions = {}): RouteProcessorRunner<D> {
 
     const processors = new Set<RouteProcessor>();
 
