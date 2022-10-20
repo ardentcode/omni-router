@@ -1,5 +1,14 @@
 # Omni Router
 
+To install and build the router for production, please run following commands:
+
+- `npm install`
+- `npm run build`
+
+For development, you can use:
+
+- `npm run watch`
+
 ## Features
 
 - uses modern [Navigation API](https://github.com/WICG/navigation-api)
@@ -18,7 +27,7 @@ It allows you to register routes, that will be automatically handled.
 
 ### Route
 
-Route is a representation of a single routing state containing `name`, `path`, `params` and optionally `data`.
+Route is a representation of route that have `name`, `path`, `params` and optionally `data`.
 It can be in handled state (when `data` is available) or not (when `data` is null).
 
 ### Route Declaration
@@ -35,7 +44,9 @@ Handlers can also be lazy loaded.
 ### Route Processor
 
 Route processor is an object with optional listener methods, which can be executed on specific router actions.
-It's used for processing data returned in handlers.
+There are 7 available listeners so far:
+`onGetRouteStart`, `onGetRouteEnd`, `onOpenRouteStart`, `onOpenRouteEnd`, `onOpenRouteSuccess`, `onOpenRouteError`, `onOpenRouteAbort`
+It's used for processing data returned in handlers, so that repetitive actions can be achieved for all specific routes.
 
 ## Guides
 
@@ -113,9 +124,7 @@ Remember that this way you get unhandled route (without `data`), because `data` 
 
 ### Opening the route
 
-Route is automatically being opened when URL in address bar changes.
-You can also open the route manually.
-You will get the handled route (with `data`).
+You can open the route programmatically. You will get the handled route (with `data`).
 
 ```typescript
 await router.openRouteByName('home');
@@ -145,11 +154,8 @@ router.registerRoute({
     handler: /* ... */
 });
 
-router.getRouteByName('posts', {page: '1'}) /* = */ {
-    name: 'posts', 
-    path: '/posts/1',
-    params: {page: '1'}
-}
+router.getRouteByName('posts', {page: '1'});
+// {name: 'posts', path: '/posts/1', params: {page: '1'}}
 ```
 
 Query parameters are additional parameters which are not defined in path pattern:
@@ -165,11 +171,8 @@ router.registerRoute({
     handler: /* ... */
 });
 
-router.getRouteByName('posts', {page: '1'}) /* = */ {
-    name: 'posts', 
-    path: '/posts?page=1',
-    params: {page: '1'}
-}
+router.getRouteByName('posts', {page: '1'});
+// {name: 'posts', path: '/posts?page=1', params: {page: '1'}}
 ```
 
 Wildcard parameters are like named parameters, but instead of a name, they have just a number assigned (starting with 0):
@@ -185,11 +188,8 @@ router.registerRoute({
     handler: /* ... */
 });
 
-router.getRouteByName('posts', {0: '1'}) /* = */ {
-    name: 'posts', 
-    path: '/posts/1', 
-    params: {page: '1'}
-}
+router.getRouteByName('posts', {0: '1'});
+// {name: 'posts', path: '/posts/1', params: {page: '1'}}
 ```
 
 You can define a fallback page (404 not found) with wildcard, but you have to register it as the last one:
