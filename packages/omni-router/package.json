@@ -40,5 +40,9 @@
         "setupFiles": [
             "<rootDir>/src/polyfills.ts"
         ]
-    }
+    },
+    "files": [
+        "dist",
+        "SECURITY.md"
+    ]
 }

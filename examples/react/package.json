@@ -1,6 +1,4 @@
 {
-    "name": "@ardentcode/omni-router-html-example",
-    "version": "0.1.0",
     "private": true,
     "description": "",
     "main": "dist/index.js",
@@ -14,22 +12,27 @@
     "author": "ArdentCode",
     "license": "ISC",
     "dependencies": {
-        "@ardentcode/omni-router": "file:../omni-router",
-        "@types/express": "^4.17.14",
+        "@ardentcode/omni-router": "file:../../packages/omni-router",
+        "@ardentcode/omni-router-react": "file:../../packages/omni-router-react",
         "express": "^4.18.1",
+        "react": "^18.2.0",
+        "react-dom": "18.2.0",
+        "axios": "^1.1.2"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.14",
+        "@types/react": "18.0.20",
+        "@types/react-dom": "18.0.6",
+        "css-loader": "^6.7.1",
+        "mini-css-extract-plugin": "^2.6.1",
         "nodemon": "^2.0.20",
+        "null-loader": "^4.0.1",
         "npm-run-all": "^4.1.5",
         "raw-loader": "^4.0.2",
         "ts-loader": "^9.4.1",
         "typescript": "^4.8.3",
         "webpack": "^5.74.0",
         "webpack-cli": "^4.10.0",
-        "webpack-node-externals": "^3.0.0",
-        "axios": "^1.1.2"
-    },
-    "devDependencies": {
-        "css-loader": "^6.7.1",
-        "mini-css-extract-plugin": "^2.6.1",
-        "null-loader": "^4.0.1"
+        "webpack-node-externals": "^3.0.0"
     }
 }
