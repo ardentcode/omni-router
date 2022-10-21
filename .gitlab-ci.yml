@@ -1,0 +1,46 @@
+stages:
+    - build_package
+    - build_example
+    
+image: node:latest
+
+cache:
+  paths:
+    - packages/*/node_modules/
+    - examples/*/node_modules/
+
+test_async:
+  script:
+    - npm install
+    - node ./specs/start.js ./specs/async.spec.js
+
+build_omni_router:
+    stage: build_package
+    script: 
+        - cd packages/omni-router
+        - npm ci
+        - npm run build
+        - npm run test
+        
+build_omni_router_react:
+    stage: build_package
+    script: 
+        - cd packages/omni-router-react
+        - npm ci
+        - npm run build
+
+build_basic_example:
+    stage: build_example
+    script: 
+        - cd examples/basic
+        - npm ci
+        - npm run build
+
+build_react_example:
+    stage: build_example
+    script: 
+        - cd examples/react
+        - npm ci
+        - npm run build
+
+
