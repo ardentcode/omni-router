@@ -21,7 +21,7 @@
         ],
         "paths": {
             "@ardentcode/omni-router": [
-                "../omni-router"
+                "../../packages/omni-router"
             ]
         }
     },

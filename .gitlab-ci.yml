@@ -19,6 +19,7 @@ build_omni_router_react:
   script:
     - cd packages/omni-router-react
     - npm ci
+    - npm link ../omni-router
     - npm run build
 
 build_basic_example:
