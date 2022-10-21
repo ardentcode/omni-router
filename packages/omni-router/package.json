@@ -1,8 +1,8 @@
 {
     "name": "@ardentcode/omni-router",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Router library based on modern navigation-api",
-    "homepage": "https://github.com/ardentcode/omni-router/blob/main/packages/omni-router/README.md",
+    "homepage": "https://github.com/ardentcode/omni-router/tree/main/packages/omni-router",
     "author": "ArdentCode <ardentcode@ardentcode.com> (https://ardentcode.com/)",
     "license": "CC0-1.0",
     "repository": {

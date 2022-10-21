@@ -1,8 +1,8 @@
 {
     "name": "@ardentcode/omni-router-react",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Additional package for Omni Router with processor rendering react components",
-    "homepage": "https://github.com/ardentcode/omni-router/blob/main/packages/omni-router-react/README.md",
+    "homepage": "https://github.com/ardentcode/omni-router/tree/main/packages/omni-router-react",
     "author": "ArdentCode <ardentcode@ardentcode.com> (https://ardentcode.com/)",
     "license": "CC0-1.0",
     "repository": {

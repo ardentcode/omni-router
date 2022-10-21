@@ -1,7 +1,7 @@
 # Omni Router React
 
 Additional package to Omni Router, which can be used while working with React application. It contains only a processor used for rendering react components.
-For details of Omni Router please see https://github.com/ardentcode/omni-router/packages/omni-router#readme
+For details of Omni Router please see https://github.com/ardentcode/omni-router/tree/main/packages/omni-router
 
 ## Build & Development
 
