@@ -14,9 +14,8 @@ build_omni_router_react:
   script:
     - cd packages/omni-router-react
     - npm ci --legacy-peer-deps
-    - npm link ../omni-router
-    - ls -l node_modules
-    - ls -l node_modules/@ardentcode
+    - mkdir node_modules/@ardentcode
+    - cp ../omni-router node_modules/@ardentcode/omni-router -r
     - npm run build
 
 build_basic_example:
