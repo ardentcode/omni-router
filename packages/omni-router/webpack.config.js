@@ -32,7 +32,7 @@ module.exports = (env, {mode}) => {
         ...commonConfig,
         name: 'client',
         target: 'web',
-        entry: './src/index.ts',
+        entry: './src/index.client.ts',
         resolve: {
             extensions: ['.client.ts', ...commonConfig.resolve.extensions]
         },
@@ -46,7 +46,7 @@ module.exports = (env, {mode}) => {
         ...commonConfig,
         name: 'server',
         target: 'node',
-        entry: './src/index.ts',
+        entry: './src/index.server.ts',
         resolve: {
             extensions: ['.server.ts', ...commonConfig.resolve.extensions]
         },

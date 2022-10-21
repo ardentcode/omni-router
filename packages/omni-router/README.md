@@ -12,11 +12,20 @@ For development, you can use:
 ## Features
 
 - uses modern [Navigation API](https://github.com/WICG/navigation-api)
+- dependency free (except polyfills for server side)
 - framework independent
 - server side rendering
 - redirections
+- navigation aborting
 - error handling
 - link resolutions
+
+The library uses following browser features.
+If you want to use it in older browsers, you should include polyfills on your own.
+Server side already includes the polyfills.
+- [Navigation API](https://chromestatus.com/feature/6232287446302720)
+- [Abort Controller](https://chromestatus.com/feature/5631483679080448)
+- [URL Pattern](https://chromestatus.com/feature/5731920199548928)
 
 ## Concepts
 
