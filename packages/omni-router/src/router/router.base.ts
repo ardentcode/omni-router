@@ -1,4 +1,4 @@
-import {ROUTE_ABORTED_ERROR_CODE, RouteAbortedError, RouteNotFoundError} from '../errors';
+import {RouteAbortedError, RouteNotFoundError} from '../errors';
 import {Route, RouteDeclaration, RouteProcessor} from '../route';
 import {createPathParser, createRouteDeclarationRepository, createRouteFactory, createRouteProcessorRunner} from '../utils';
 import {OpenRouteOptions, Router, RouterOptions} from './router';
@@ -92,7 +92,7 @@ export function createBaseRouter<M = any, D = any>({
         } catch (error) {
             finishLoadingRoute();
             await routeProcessorRunner.runOnOpenRouteEnd({router, route, signal});
-            if (error && error.code === ROUTE_ABORTED_ERROR_CODE) {
+            if (signal.aborted) {
                 await routeProcessorRunner.runOnOpenRouteAbort({router, route});
             } else {
                 await routeProcessorRunner.runOnOpenRouteError({router, route, error});
@@ -117,7 +117,6 @@ export function createBaseRouter<M = any, D = any>({
 
     const checkLoadingRoute = (route: Route<unknown, null>, signal: AbortSignal): void => {
         if (signal.aborted) {
-            loadingRoute = null;
             throw new RouteAbortedError(`Route "${route.name}" has been aborted`, {route});
         }
     };
