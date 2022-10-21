@@ -10,7 +10,7 @@ export function HeaderTemplate({router}: HeaderTemplateProps): JSX.Element {
     return (
         <div className="header">
             <div className="logo">
-                <a href={router.getRouteByName('home').path}>&#128206; Omni Router</a>
+                <a href={router.getRouteByName('home').path}>&#128206; Omni Router - React example</a>
             </div>
             <nav className="menu">
                 <a href={router.getRouteByName('books').path}>&#128216; Books</a>

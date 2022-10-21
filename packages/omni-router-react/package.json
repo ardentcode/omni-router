@@ -1,19 +1,19 @@
 {
-    "name": "@ardentcode/omni-router-react",
-    "version": "0.1.1",
-    "description": "",
+    "description": "Additional package for Omni Router with processor rendering react components",
     "main": "dist/index.server.js",
     "browser": "dist/index.client.js",
     "types": "dist/types/index.d.ts",
     "scripts": {
         "build": "node node_modules/webpack/bin/webpack.js --progress --mode=production",
-        "watch": "node node_modules/webpack/bin/webpack.js --progress --mode=development --watch"
+        "watch": "node node_modules/webpack/bin/webpack.js --progress --mode=development --watch",
+        "clean": "rimraf ./dist"
     },
-    "author": "ArdentCode",
-    "license": "ISC",
+    "author": "ArdentCode <ardentcode@ardentcode.com> (https://ardentcode.com/)",
+    "license": "CC0-1.0",
     "devDependencies": {
         "@types/react": "^18.0.21",
         "@types/react-dom": "^18.0.6",
+        "rimraf": "^3.0.2",
         "ts-loader": "^9.4.1",
         "typescript": "^4.8.3",
         "webpack": "^5.74.0",
@@ -21,5 +21,10 @@
     },
     "peerDependencies": {
         "@ardentcode/omni-router": "^0.1.0"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ardentcode/omni-router.git"
+    },
+    "homepage": "https://github.com/ardentcode/omni-router/blob/main/packages/omni-router-react/README.md"
 }

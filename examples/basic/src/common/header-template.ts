@@ -12,7 +12,7 @@ export function renderHeaderTemplate({router, info}: HeaderTemplateParams): stri
     return `
         <div class="header">
             <div class="logo">
-                <a href="${router.getRouteByName('home')}">&#128206; Omni Router</a>
+                <a href="${router.getRouteByName('home')}">&#128206; Omni Router - Basic example</a>
             </div>
             <nav class="menu">
                 <a href="${router.getRouteByName('books')}">&#128216; Books</a>

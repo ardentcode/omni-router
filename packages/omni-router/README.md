@@ -1,5 +1,9 @@
 # Omni Router
 
+Router library based on modern [Navigation API](https://github.com/WICG/navigation-api)
+
+## Build & Development
+
 To install and build the router for production, please run following commands:
 
 - `npm install`
