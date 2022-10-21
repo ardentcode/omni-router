@@ -316,11 +316,9 @@ function createBodyClassRouteProcessor(): RouteProcessor<BodyClassRouteData> {
 ```
 
 ```typescript
-async function homeRouteHandler(params: HomeRouteParams): Promise<ReactRouteData> {
+async function homeRouteHandler(params: HomeRouteParams): Promise<BodyClassRouteData> {
     return {
-        react: {
-            bodyClass: 'home'
-        }
+        bodyClass: 'home'
     };
 }
 ```
