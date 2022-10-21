@@ -22,10 +22,10 @@
         ],
         "paths": {
             "@ardentcode/omni-router": [
-                "../omni-router"
+                "../../packages/omni-router"
             ],
             "@ardentcode/omni-router-react": [
-                "../omni-router-react"
+                "../../packages/omni-router-react"
             ]
         }
     },

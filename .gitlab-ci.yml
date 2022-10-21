@@ -1,0 +1,34 @@
+image: node:lts
+
+build_omni_router:
+  stage: build
+  script:
+    - cd packages/omni-router
+    - npm ci
+    - npm run build
+    - npm run test
+
+build_omni_router_react:
+  stage: build
+  needs: [ build_omni_router ]
+  script:
+    - cd packages/omni-router-react
+    - npm ci --legacy-peer-deps
+    - npm link ../omni-router
+    - npm run build
+
+build_basic_example:
+  stage: build
+  needs: [ build_omni_router ]
+  script:
+    - cd examples/basic
+    - npm ci
+    - npm run build
+
+build_react_example:
+  stage: build
+  needs: [ build_omni_router, build_omni_router_react ]
+  script:
+    - cd examples/react
+    - npm ci
+    - npm run build
