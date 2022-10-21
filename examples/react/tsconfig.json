@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./",
+        "declaration": false,
+        "downlevelIteration": true,
+        "esModuleInterop": true,
+        "jsx": "react-jsx",
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "target": "es6",
+        "lib": [
+            "DOM",
+            "ES2021"
+        ],
+        "paths": {
+            "@ardentcode/omni-router": [
+                "../omni-router"
+            ],
+            "@ardentcode/omni-router-react": [
+                "../omni-router-react"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

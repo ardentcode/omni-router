@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
+        "declaration": true,
+        "downlevelIteration": true,
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "outDir": "./dist/types",
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "target": "es6",
+        "lib": [
+            "DOM",
+            "ES2021"
+        ],
+        "types": [
+            "jest"
+        ]
+    },
+    "include": [
+        "navigation-api.d.ts",
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "src/**/*.spec.ts"
+    ]
+}
