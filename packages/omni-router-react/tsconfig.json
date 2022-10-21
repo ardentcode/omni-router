@@ -19,12 +19,7 @@
         "lib": [
             "DOM",
             "ES2021"
-        ],
-        "paths": {
-            "@ardentcode/omni-router": [
-                "../omni-router"
-            ]
-        }
+        ]
     },
     "include": [
         "src/**/*"
