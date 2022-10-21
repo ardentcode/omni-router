@@ -1,4 +1,4 @@
-import {RouteHandler, RouteInfo} from '@ardentcode/omni-router';
+import {MetaRouteData, RouteHandler, RouteInfo} from '@ardentcode/omni-router';
 import {ReactRouteData} from '@ardentcode/omni-router-react';
 import {BookApi, createBookApi} from './book-api';
 import {BooksTemplate} from './books-template';
@@ -13,7 +13,7 @@ export interface BooksRouteHandlerOptions {
 
 export function createBooksRouteHandler({
     bookApi = createBookApi()
-}: BooksRouteHandlerOptions = {}): RouteHandler<BooksRouteParams, ReactRouteData> {
+}: BooksRouteHandlerOptions = {}): RouteHandler<BooksRouteParams, ReactRouteData & MetaRouteData> {
     return async ({limit = 10}: BooksRouteParams, {router, signal}: RouteInfo) => {
         const books = await bookApi.getBooks({limit, signal});
         return {
