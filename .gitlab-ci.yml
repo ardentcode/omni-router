@@ -9,11 +9,6 @@ cache:
     - packages/*/node_modules/
     - examples/*/node_modules/
 
-test_async:
-  script:
-    - npm install
-    - node ./specs/start.js ./specs/async.spec.js
-
 build_omni_router:
     stage: build_package
     script: 
