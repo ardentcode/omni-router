@@ -1,4 +1,5 @@
-import './polyfills';
+import 'abort-controller/polyfill';
+import 'urlpattern-polyfill';
 
 export * from './errors';
 export * from './processors';
