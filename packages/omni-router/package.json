@@ -1,7 +1,7 @@
 {
     "name": "@ardentcode/omni-router",
     "version": "0.1.0",
-    "description": "",
+    "description": "Router library based on modern navigation-api",
     "main": "dist/index.server.js",
     "browser": "dist/index.client.js",
     "types": "dist/types/index.server.d.ts",
@@ -9,10 +9,11 @@
         "build": "node node_modules/webpack/bin/webpack.js --progress --mode=production",
         "watch": "node node_modules/webpack/bin/webpack.js --progress --mode=development --watch",
         "test": "jest",
-        "test:coverage": "jest --coverage"
+        "test:coverage": "jest --coverage",
+        "clean": "rimraf ./dist"
     },
-    "author": "ArdentCode",
-    "license": "ISC",
+    "author": "ArdentCode <ardentcode@ardentcode.com> (https://ardentcode.com/)",
+    "license": "CC0-1.0",
     "dependencies": {
         "abort-controller": "^3.0.0",
         "urlpattern-polyfill": "^6.0.1"
@@ -22,6 +23,7 @@
         "@types/react": "^18.0.21",
         "@types/react-dom": "^18.0.6",
         "jest": "^29.1.2",
+        "rimraf": "^3.0.2",
         "ts-jest": "^29.0.3",
         "ts-loader": "^9.4.1",
         "typescript": "^4.8.3",
@@ -44,5 +46,10 @@
     "files": [
         "dist",
         "SECURITY.md"
-    ]
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ardentcode/omni-router.git"
+    },
+    "homepage": "https://github.com/ardentcode/omni-router/blob/main/packages/omni-router/README.md"
 }

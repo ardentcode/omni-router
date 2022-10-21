@@ -1,6 +1,11 @@
 # Omni Router React
 
-To install and build the router for production, please run following commands:
+Additional package to Omni Router, which can be used while working with React application. It contains only a processor used for rendering react components.
+For details of Omni Router please see https://github.com/ardentcode/omni-router/packages/omni-router#readme
+
+## Build & Development
+
+To install and build, please run following commands:
 
 - `npm install`
 - `npm run build`
