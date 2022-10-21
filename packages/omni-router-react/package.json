@@ -28,5 +28,9 @@
     },
     "peerDependencies": {
         "@ardentcode/omni-router": "^0.1.0"
-    }
+    },
+    "files": [
+        "dist",
+        "SECURITY.md"
+    ]
 }
