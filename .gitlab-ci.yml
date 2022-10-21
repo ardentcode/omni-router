@@ -1,10 +1,5 @@
 image: node:latest
 
-cache:
-  paths:
-    - packages/*/node_modules/
-    - examples/*/node_modules/
-
 build_omni_router:
   stage: build
   script:
